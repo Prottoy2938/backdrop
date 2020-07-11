@@ -1,6 +1,6 @@
 body,
 html {
-  font-family: sans-serif;
+  font-family: "Josefin Sans", sans-serif;
 }
 
 canvas {
@@ -23,4 +23,5 @@ video {
   margin-bottom: 5vh;
   padding: 5px 10px;
   font-size: 22px;
+  font-family: "Josefin Sans", sans-serif;
 }
