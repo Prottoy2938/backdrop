@@ -14,6 +14,13 @@ video {
   margin-top: 100px;
 }
 
-#event-container {
-  display: none;
+#title {
+  border: 2px dashed rgb(71, 70, 70);
+  display: table;
+  width: 100px;
+  margin: 0 auto;
+  cursor: pointer;
+  margin-bottom: 5vh;
+  padding: 5px 10px;
+  font-size: 22px;
 }
