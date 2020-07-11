@@ -4,6 +4,7 @@ let video;
 let uNet;
 let segmentationImage;
 let bg;
+let uNetActive = false;
 
 // load uNet model
 function preload() {
@@ -12,11 +13,9 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(640, 480);
+  createCanvas(540, 400);
   //load up an image
-  bg = loadImage(
-    "https://images.pexels.com/photos/821668/pexels-photo-821668.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=640&w=480"
-  );
+  bg = loadImage("./assets/loading.jpg");
   // load up your video
   video = createCapture(VIDEO);
   video.size(width, height);
@@ -29,30 +28,34 @@ function setup() {
 }
 
 function gotResult(error, result) {
-  // if there's an error return it
   if (error) {
     console.error(error);
     return;
   }
-  // set the result to the global segmentation variable
-  segmentationImage = result.backgroundMask;
-
-  // Continue asking for a segmentation image
-  uNet.segment(video, gotResult);
+  //loading the initial background image
+  if (!uNetActive) {
+    bg = loadImage("./assets/initial-background.jpg");
+    uNetActive = true;
+  }
+  segmentationImage = result.backgroundMask; // set the result to the global segmentation variable
+  uNet.segment(video, gotResult); // Continue asking for a segmentation image
 }
 
+//adding the dom elements, from p5js
 function draw() {
   background(bg);
   image(segmentationImage, 0, 0, width, height);
 }
 
+//Image Upload
 imageUpload.addEventListener("change", (e) => {
   const imgSrc = window.URL.createObjectURL(e.target.files[0]);
-
+  //changing background to imported image
   bg = loadImage(imgSrc);
   background(bg);
 });
 
+//Image Download
 captureFrame.addEventListener("click", () => {
   saveFrames("out", "png", 1, 25, (data) => {
     print(data);
