@@ -1,5 +1,7 @@
 const imageUpload = document.querySelector("#cs1-image-upload");
 const captureFrame = document.querySelector("#capture-frame");
+const domBody = document.querySelector("body");
+
 let video;
 let uNet;
 let segmentationImage;
@@ -8,23 +10,18 @@ let uNetActive = false;
 
 // load uNet model
 function preload() {
-  console.log("I'm running here");
   uNet = ml5.uNet("face");
 }
 
+//p5js initial setup
 function setup() {
   createCanvas(540, 400);
-  //load up an image
-  bg = loadImage("./assets/loading.jpg");
-  // load up your video
   video = createCapture(VIDEO);
   video.size(width, height);
-  //video.hide();
-  // Start with a blank image
   segmentationImage = createImage(width, height);
-
   // initial segmentation
   uNet.segment(video, gotResult);
+  bg = loadImage("./assets/loading.jpg");
 }
 
 function gotResult(error, result) {
@@ -32,10 +29,14 @@ function gotResult(error, result) {
     console.error(error);
     return;
   }
-  //loading the initial background image
   if (!uNetActive) {
-    bg = loadImage("./assets/initial-background.jpg");
+    //doing stuff after the initial uNet model has loaded and working
     uNetActive = true;
+    bg = loadImage("./assets/initial-background.jpg");
+    const imageInput = document.createElement("input");
+    imageInput.type = "text";
+    const canvas = document.querySelector("video"); //getting the canvas after its created by p5js
+    canvas.parentNode.insertBefore(imageInput, canvas.nextSibling);
   }
   segmentationImage = result.backgroundMask; // set the result to the global segmentation variable
   uNet.segment(video, gotResult); // Continue asking for a segmentation image
@@ -47,11 +48,10 @@ function draw() {
   image(segmentationImage, 0, 0, width, height);
 }
 
-//Image Upload
+//Image Upload handler
 imageUpload.addEventListener("change", (e) => {
   const imgSrc = window.URL.createObjectURL(e.target.files[0]);
-  //changing background to imported image
-  bg = loadImage(imgSrc);
+  bg = loadImage(imgSrc); //changing background to imported image
   background(bg);
 });
 
