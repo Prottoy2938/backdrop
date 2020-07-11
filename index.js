@@ -1,6 +1,8 @@
-const imageUpload = document.querySelector("#cs1-image-upload");
-const captureFrame = document.querySelector("#capture-frame");
-const domBody = document.querySelector("body");
+const imageUpload = document.createElement("input"); //initializing the element, not showing it yet [look at `gotResult` function]
+const captureFrameBtn = document.createElement("button"); //initializing the element, not showing it yet [look at `gotResult` function]
+imageUpload.type = "file";
+imageUpload.accept = "image/*";
+captureFrameBtn.innerText = "Capture Images";
 
 let video;
 let uNet;
@@ -33,10 +35,11 @@ function gotResult(error, result) {
     //doing stuff after the initial uNet model has loaded and working
     uNetActive = true;
     bg = loadImage("./assets/initial-background.jpg");
-    const imageInput = document.createElement("input");
-    imageInput.type = "text";
     const canvas = document.querySelector("video"); //getting the canvas after its created by p5js
-    canvas.parentNode.insertBefore(imageInput, canvas.nextSibling);
+
+    //adding those element on the dom now
+    canvas.parentNode.insertBefore(imageUpload, canvas.nextSibling);
+    canvas.parentNode.insertBefore(captureFrameBtn, canvas.nextSibling);
   }
   segmentationImage = result.backgroundMask; // set the result to the global segmentation variable
   uNet.segment(video, gotResult); // Continue asking for a segmentation image
@@ -56,12 +59,12 @@ imageUpload.addEventListener("change", (e) => {
 });
 
 //Image Download
-captureFrame.addEventListener("click", () => {
+captureFrameBtn.addEventListener("click", () => {
   saveFrames("out", "png", 1, 25, (data) => {
     print(data);
     //create a feature of capture-this-frame and show them all 8 images and allow them to download which frame they want to download
-    for (let i = 0; i < data.length; i++) {
-      downloadFile(data[i].imageData, data[i].filename, data[i].ext);
-    }
+    // for (let i = 0; i < data.length; i++) {
+    //   downloadFile(data[i].imageData, data[i].filename, data[i].ext);
+    // }
   });
 });
