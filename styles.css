@@ -18,9 +18,9 @@ video {
   border: 2px dashed rgb(71, 70, 70);
   display: table;
   width: 100px;
-  margin: 0 auto;
+  margin: 5vh auto;
+  margin-top: 1vh;
   cursor: pointer;
-  margin-bottom: 5vh;
   padding: 5px 10px;
   font-size: 22px;
   font-family: "Josefin Sans", sans-serif;
