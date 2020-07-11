@@ -20,9 +20,34 @@
   <body>
     <h1 id="title">Backdrop</h1>
     <div id="event-container" style="display: none;">
-      <input id="cs1-image-upload" type="file" accept="image/*" />
-      <button class="btn btn-secondary"" id="capture-frame">
-        Capture this frame
+      <label for="image-upload" id="image-upload-container">
+        <span
+          class="btn btn-warning"
+          data-toggle="tooltip"
+          title="import background image from device"
+        >
+          <img
+            src="./assets/folder-search.svg"
+            alt="import background image from device"
+            width="20px"
+            height="20px"
+          />
+          New Background Image
+        </span>
+      </label>
+      <input
+        id="image-upload"
+        type="file"
+        accept="image/*"
+        style="display: none;"
+      />
+      <button
+        class="btn btn-secondary"
+        id="capture-frame"
+        data-toggle="tooltip"
+        title="capture and download images from the current video instance"
+      >
+        Capture Images
       </button>
     </div>
 

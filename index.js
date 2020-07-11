@@ -1,5 +1,5 @@
 const eventContainer = document.querySelector("#event-container"); //initializing the element, not showing it yet [look at `gotResult` function]
-const imageUpload = document.querySelector("#cs1-image-upload");
+const imageUpload = document.querySelector("#image-upload");
 const captureFrameBtn = document.querySelector("#capture-frame");
 
 let video;
