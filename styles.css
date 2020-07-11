@@ -5,6 +5,13 @@ html {
 
 canvas {
   float: left;
+  margin-left: calc((100vw - (540px + 200px)) / 2);
+}
+
+video {
+  margin-left: calc(((100vw - (540px + 200px)) / 2) / 2);
+  margin-bottom: 150px;
+  margin-top: 100px;
 }
 
 #event-container {

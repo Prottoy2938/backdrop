@@ -1,6 +1,6 @@
 const eventContainer = document.querySelector("#event-container"); //initializing the element, not showing it yet [look at `gotResult` function]
 const imageUpload = document.querySelector("#cs1-image-upload");
-const captureFrame = document.querySelector("#capture-frame");
+const captureFrameBtn = document.querySelector("#capture-frame");
 
 let video;
 let uNet;
@@ -17,11 +17,10 @@ function preload() {
 function setup() {
   createCanvas(540, 400);
   video = createCapture(VIDEO);
-  video.size(width, height);
+  video.size(200, 150);
   segmentationImage = createImage(width, height);
-  // initial segmentation
-  uNet.segment(video, gotResult);
-  bg = loadImage("./assets/loading.jpg");
+  uNet.segment(video, gotResult); // initial segmentation
+  bg = loadImage("./assets/loading.jpg"); //initial loading image
 }
 
 function gotResult(error, result) {
