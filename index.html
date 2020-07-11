@@ -41,14 +41,17 @@
         accept="image/*"
         style="display: none;"
       />
-      <button
-        class="btn btn-secondary"
-        id="capture-frame"
-        data-toggle="tooltip"
-        title="capture and download images from the current video instance"
-      >
-        Capture Images
-      </button>
+      <div id="image-capture-container">
+        <button
+          class="btn btn-secondary"
+          id="capture-frame-btn"
+          data-toggle="tooltip"
+          title="capture and download images from the current video instance"
+        >
+          Capture Images
+        </button>
+        <div id="preview-img-container"></div>
+      </div>
     </div>
 
     <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>

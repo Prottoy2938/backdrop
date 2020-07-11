@@ -1,7 +1,7 @@
 const eventContainer = document.querySelector("#event-container"); //initializing the element, not showing it yet [look at `gotResult` function]
 const imageUpload = document.querySelector("#image-upload");
-const captureFrameBtn = document.querySelector("#capture-frame");
-
+const captureFrameBtn = document.querySelector("#capture-frame-btn");
+const previewImgContainer = document.querySelector("#preview-img-container");
 let video;
 let uNet;
 let segmentationImage;
@@ -34,7 +34,7 @@ function gotResult(error, result) {
     bg = loadImage("./assets/initial-background.jpg");
     const video = document.querySelector("video"); //getting the video after its created by p5js
     video.parentNode.insertBefore(eventContainer, video.nextSibling); //inserting the eventContainer after the video element [https://stackoverflow.com/questions/4793604/how-to-insert-an-element-after-another-element-in-javascript-without-using-a-lib]
-    eventContainer.style.display = "block";
+    eventContainer.style.display = "table";
   }
 
   segmentationImage = result.backgroundMask;
@@ -57,10 +57,12 @@ imageUpload.addEventListener("change", (e) => {
 //Image download handler
 captureFrameBtn.addEventListener("click", () => {
   saveFrames("out", "png", 1, 25, (data) => {
-    print(data);
     //create a feature of capture-this-frame and show them all 8 images and allow them to download which frame they want to download
-    // for (let i = 0; i < data.length; i++) {
-    //   downloadFile(data[i].imageData, data[i].filename, data[i].ext);
-    // }
+    for (let i = 0; i < data.length; i++) {
+      const img = new Image(100, 100);
+      img.src = data[i].imageData;
+      previewImgContainer.append(img);
+      //downloadFile(data[i].imageData, data[i].filename, data[i].ext);
+    }
   });
 });

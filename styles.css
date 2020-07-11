@@ -3,6 +3,18 @@ html {
   font-family: "Josefin Sans", sans-serif !important;
 }
 
+#title {
+  border: 2px dashed rgb(71, 70, 70);
+  display: table;
+  width: 100px;
+  margin: 5vh auto;
+  margin-top: 1vh;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 22px;
+  font-family: "Josefin Sans", sans-serif;
+}
+
 canvas {
   float: left;
   margin-left: calc((100vw - (540px + 200px)) / 2);
@@ -14,14 +26,12 @@ video {
   margin-top: 100px;
 }
 
-#title {
-  border: 2px dashed rgb(71, 70, 70);
-  display: table;
-  width: 100px;
-  margin: 5vh auto;
-  margin-top: 1vh;
-  cursor: pointer;
-  padding: 5px 10px;
-  font-size: 22px;
-  font-family: "Josefin Sans", sans-serif;
+#image-capture-container {
+  width: 500px;
+  text-align: center;
+  float: right;
+}
+
+#capture-frame-btn {
+  margin: 0 auto;
 }
