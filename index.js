@@ -56,6 +56,39 @@ function gotResult(error, result) {
   uNet.segment(video, gotResult);
 }
 
+//starts capturing video from canvas and saving that data on `chunks` [https://stackoverflow.com/questions/42437971/exporting-a-video-in-p5-js]
+function startRecording() {
+  chunks.length = 0;
+  let stream = document.querySelector("canvas").captureStream(30);
+  recorder = new MediaRecorder(stream);
+  recorder.ondataavailable = (e) => {
+    if (e.data.size) {
+      chunks.push(e.data);
+    }
+  };
+  recorder.onstop = exportVideo;
+  recorder.start();
+}
+
+//displays captured video on the dom
+function exportVideo(e) {
+  const blob = new Blob(chunks);
+  const vid = document.createElement("video");
+  vid.id = "preview-video";
+  vid.style.width = "400px";
+  vid.style.height = "294px";
+  vid.controls = true;
+  vid.src = URL.createObjectURL(blob);
+  previewVideoContainer.appendChild(vid);
+  vid.play();
+  //adding download btn
+  const downloadVideoBtn = document.createElement("button");
+  downloadVideoBtn.innerText = "Download";
+  downloadVideoBtn.className = "btn btn-light";
+  downloadVideoBtn.id = "download-video-btn";
+  previewVideoContainer.appendChild(downloadVideoBtn);
+}
+
 //Image upload handler
 imageUpload.addEventListener("change", (e) => {
   const imgSrc = window.URL.createObjectURL(e.target.files[0]);
@@ -88,39 +121,6 @@ captureFrameBtn.addEventListener("click", () => {
     downloadBtn.download = `${data[0].filename}.${data[0].ext}`;
   });
 });
-
-//starts capturing video from canvas
-function startRecording() {
-  chunks.length = 0;
-  let stream = document.querySelector("canvas").captureStream(30);
-  recorder = new MediaRecorder(stream);
-  recorder.ondataavailable = (e) => {
-    if (e.data.size) {
-      chunks.push(e.data);
-    }
-  };
-  recorder.onstop = exportVideo;
-  recorder.start();
-}
-
-//displays captured video on the dom
-function exportVideo(e) {
-  const blob = new Blob(chunks);
-  const vid = document.createElement("video");
-  vid.id = "preview-video";
-  vid.style.width = "400px";
-  vid.style.height = "294px";
-  vid.controls = true;
-  vid.src = URL.createObjectURL(blob);
-  previewVideoContainer.appendChild(vid);
-  vid.play();
-  //adding download btn
-  const downloadVideoBtn = document.createElement("button");
-  downloadVideoBtn.innerText = "Download";
-  downloadVideoBtn.className = "btn btn-light";
-  downloadVideoBtn.id = "download-video-btn";
-  previewVideoContainer.appendChild(downloadVideoBtn);
-}
 
 //handling record-btn click
 recordBtn.addEventListener("click", () => {
