@@ -6,7 +6,7 @@ const previewVideoContainer = document.querySelector(
   "#video-capture-container"
 );
 const recordBtn = document.querySelector("#record-canvas-btn");
-const backgroundColor = document.querySelector("#background-color");
+const backgroundColor = document.querySelector("#background-color-picker");
 
 let video;
 let uNet;
@@ -157,7 +157,7 @@ recordBtn.addEventListener("click", () => {
     clearInterval(updateTimer);
     recording = false;
     recordBtn.innerHTML = "start a new recording"; //using innerHTML, which also removes the `counterSpan` element
-    recordBtn.className = "btn btn-success";
+    recordBtn.className = "btn btn-light";
     recorder.stop(); //recorder.stop calls `exportVideo` function
   }
 });
