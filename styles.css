@@ -117,16 +117,27 @@ nav > div a.nav-item.nav-link:hover {
 #record-canvas-btn {
   display: block;
   margin: 0 auto;
+  margin-top: 1vh;
+  margin-bottom: 3vh;
+}
+#record-canvas-btn span {
+  margin-left: 5px;
 }
 
 #download-video-btn {
   display: block;
   margin: 0 auto;
+  width: 150px;
+  background-color: antiquewhite;
 }
 
 #download-img-btn {
   margin-top: 1vh;
   margin-bottom: 3vh;
+}
+
+#download-video-btn:hover {
+  background-color: rgb(255, 235, 209);
 }
 /* For responsiveness */
 @media only screen and (max-width: 992px) {
@@ -144,5 +155,14 @@ nav > div a.nav-item.nav-link:hover {
   }
   #image-upload-container {
     margin-left: 20vw;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  #video-capture-container {
+    width: 100vw;
+  }
+  #video-capture-container {
+    width: 100vw;
   }
 }

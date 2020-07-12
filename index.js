@@ -92,7 +92,7 @@ function exportVideo(e) {
   previewVideoContainer.appendChild(downloadVideoBtn);
   //connecting the download btn with the video source
   downloadVideoBtn.href = vid.src;
-  downloadVideoBtn.download = "edited-background.mp4";
+  downloadVideoBtn.download = "from-backdrop.mp4";
 }
 
 //Image upload handler
