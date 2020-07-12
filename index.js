@@ -59,9 +59,17 @@ captureFrameBtn.addEventListener("click", () => {
   saveFrames("out", "png", 1, 25, (data) => {
     //create a feature of capture-this-frame and show them all 8 images and allow them to download which frame they want to download
     for (let i = 0; i < data.length; i++) {
-      const img = new Image(100, 100);
+      const containerDiv = document.createElement("div");
+      const img = new Image(200, 150);
+      const button = document.createElement("button");
+      containerDiv.className = "col-6 col-md-4";
       img.src = data[i].imageData;
-      previewImgContainer.append(img);
+      img.className = "card-img-top";
+      button.innerText = "Download";
+      button.className = "btn btn-primary";
+      previewImgContainer.append(containerDiv);
+      containerDiv.append(img);
+      containerDiv.appendChild(button);
       //downloadFile(data[i].imageData, data[i].filename, data[i].ext);
     }
   });
