@@ -6,6 +6,7 @@ const previewVideoContainer = document.querySelector(
   "#video-capture-container"
 );
 const recordBtn = document.querySelector("#record-canvas-btn");
+const backgroundColor = document.querySelector("#background-color");
 
 let video;
 let uNet;
@@ -26,14 +27,14 @@ function preload() {
 function setup() {
   createCanvas(540, 400);
   video = createCapture(VIDEO);
-  video.size(200, 150);
+  video.size(200, 150); //displaying the main image on the side
   video.class("webcam-feed");
   segmentationImage = createImage(width, height);
   uNet.segment(video, gotResult); // initial segmentation
   bg = loadImage("./assets/loading.jpg"); //initial loading image
 }
 
-//adding the dom elements, from p5js
+//adding the dom elements, from p5js. this function runs continuously
 function draw() {
   background(bg);
   image(segmentationImage, 0, 0, width, height);
@@ -159,4 +160,9 @@ recordBtn.addEventListener("click", () => {
     recordBtn.className = "btn btn-success";
     recorder.stop(); //recorder.stop calls `exportVideo` function
   }
+});
+
+backgroundColor.addEventListener("change", (e) => {
+  bg = e.target.value;
+  background(bg);
 });
