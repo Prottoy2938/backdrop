@@ -97,6 +97,8 @@ function exportVideo(e) {
 
 //Image upload handler
 imageUpload.addEventListener("change", (e) => {
+  bg = "#000000";
+  background(bg); //try setting bg to #eee
   const imgSrc = window.URL.createObjectURL(e.target.files[0]);
   bg = loadImage(imgSrc); //changing background to imported image
   background(bg);

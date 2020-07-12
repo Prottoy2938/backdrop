@@ -41,6 +41,10 @@ video {
 #event-container .row {
   --bs-gutter-x: none;
 }
+.nav-link.active {
+  background-color: #e5e9e9;
+  color: black;
+}
 
 nav > div a.nav-item.nav-link,
 nav > div a.nav-item.nav-link {
@@ -138,6 +142,13 @@ nav > div a.nav-item.nav-link:hover {
 
 #download-video-btn:hover {
   background-color: rgb(255, 235, 209);
+}
+
+#github-link {
+  position: absolute;
+  top: 0;
+  right: 2vh;
+  width: 35px;
 }
 /* For responsiveness */
 @media only screen and (max-width: 992px) {
