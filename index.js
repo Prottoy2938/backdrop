@@ -15,6 +15,7 @@ let uNetActive = false;
 let recording = false;
 let recorder;
 const chunks = [];
+let counterSpan;
 
 // load uNet model
 function preload() {
@@ -124,15 +125,23 @@ recordBtn.addEventListener("click", () => {
   if (!recording) {
     const previewVideo = document.querySelector("#preview-video");
     if (previewVideo) {
-      previewVideoContainer.removeChild();
+      previewVideoContainer.removeChild(previewVideo);
     }
+    counterSpan = document.createElement("span");
     recordBtn.innerText = "stop recording";
     recordBtn.className = "btn btn-danger";
+    counterSpan.className = "badge bg-secondary";
+    counterSpan.innerText = 0;
+    recordBtn.appendChild(counterSpan);
     record();
     recording = true;
+    setInterval(() => {
+      console.log(counterSpan.innerText);
+      counterSpan.innerText = Number(counterSpan.innerText) + 1;
+    }, 1000);
   } else {
     recording = false;
-    recordBtn.innerText = "start recording";
+    recordBtn.innerHTML = "start a new recording";
     recordBtn.className = "btn btn-success";
     recorder.stop();
   }
