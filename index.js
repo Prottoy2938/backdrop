@@ -15,7 +15,7 @@ let uNetActive = false;
 let recording = false;
 let recorder;
 const chunks = [];
-let counterSpan;
+let updateTimer;
 
 // load uNet model
 function preload() {
@@ -66,7 +66,7 @@ imageUpload.addEventListener("change", (e) => {
 //Image preview and download handler
 captureFrameBtn.addEventListener("click", () => {
   saveFrames("out", "png", 1, 25, (data) => {
-    //removing single image if theres more than 6 images
+    //removing an image if theres more than 6 images
     if (previewImgContainer.childElementCount + 1 > 6) {
       previewImgContainer.removeChild(
         previewImgContainer.getElementsByTagName("div")[0]
@@ -89,7 +89,8 @@ captureFrameBtn.addEventListener("click", () => {
   });
 });
 
-function record() {
+//starts capturing video from canvas
+function startRecording() {
   chunks.length = 0;
   let stream = document.querySelector("canvas").captureStream(30);
   recorder = new MediaRecorder(stream);
@@ -99,50 +100,60 @@ function record() {
     }
   };
   recorder.onstop = exportVideo;
-  // recordBtn.onclick = (e) => {
-  //   recorder.stop();
-  //   recordBtn.innerText = "start recording";
-  //   recordBtn.onclick = record;
-  // };
   recorder.start();
 }
 
+//displays captured video on the dom
 function exportVideo(e) {
   const blob = new Blob(chunks);
   const vid = document.createElement("video");
   vid.id = "preview-video";
   vid.style.width = "400px";
   vid.style.height = "294px";
-  // vid.id = "recorded";
   vid.controls = true;
   vid.src = URL.createObjectURL(blob);
   previewVideoContainer.appendChild(vid);
   vid.play();
+  //adding download btn
+  const downloadVideoBtn = document.createElement("button");
+  downloadVideoBtn.innerText = "Download";
+  downloadVideoBtn.className = "btn btn-light";
+  downloadVideoBtn.id = "download-video-btn";
+  previewVideoContainer.appendChild(downloadVideoBtn);
 }
 
 //handling record-btn click
 recordBtn.addEventListener("click", () => {
+  //starts recording
   if (!recording) {
+    recording = true;
     const previewVideo = document.querySelector("#preview-video");
+    const downloadVideoBtn = document.querySelector("#download-video-btn");
+
     if (previewVideo) {
       previewVideoContainer.removeChild(previewVideo);
     }
-    counterSpan = document.createElement("span");
+    if (downloadVideoBtn) {
+      previewVideoContainer.removeChild(downloadVideoBtn);
+    }
+    const counterSpan = document.createElement("span");
     recordBtn.innerText = "stop recording";
     recordBtn.className = "btn btn-danger";
     counterSpan.className = "badge bg-secondary";
     counterSpan.innerText = 0;
     recordBtn.appendChild(counterSpan);
-    record();
-    recording = true;
-    setInterval(() => {
+    startRecording();
+    updateTimer = setInterval(() => {
       console.log(counterSpan.innerText);
-      counterSpan.innerText = Number(counterSpan.innerText) + 1;
+      counterSpan.innerText = Number(counterSpan.innerText) + 1; //updating video capture counter timer
     }, 1000);
-  } else {
+  }
+  //stops recording
+  else {
+    clearInterval(updateTimer);
     recording = false;
-    recordBtn.innerHTML = "start a new recording";
+    recordBtn.innerHTML = "start a new recording"; //using innerHTML, which also removes the `counterSpan` element
     recordBtn.className = "btn btn-success";
-    recorder.stop();
+    recorder.stop(); //recorder.stop calls `exportVideo` function
   }
 });

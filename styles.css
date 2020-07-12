@@ -72,6 +72,11 @@ video {
   margin: 0 auto;
 }
 
+#download-video-btn {
+  display: block;
+  margin: 0 auto;
+}
+
 @media only screen and (max-width: 992px) {
   .webcam-feed {
     display: none;
