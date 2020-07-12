@@ -106,24 +106,27 @@ imageUpload.addEventListener("change", (e) => {
 captureFrameBtn.addEventListener("click", () => {
   saveFrames("out", "png", 1, 25, (data) => {
     //removing an image if theres more than 6 images
-    if (previewImgContainer.childElementCount + 1 > 6) {
+    if (previewImgContainer.childElementCount > 5) {
       previewImgContainer.removeChild(
-        previewImgContainer.getElementsByTagName("div")[0]
+        previewImgContainer.getElementsByTagName("div")[
+          previewImgContainer.childElementCount - 1
+        ]
       );
     }
-    const containerDiv = document.createElement("div");
+    const imgCard = document.createElement("div");
     const img = new Image(300, 220);
     const downloadBtn = document.createElement("a");
     img.src = data[0].imageData;
     downloadBtn.href = data[0].imageData;
     img.className = "card-img-top";
     img.style.width = "300px"; //need this to override bootstrap style
-    containerDiv.className = "col-6 col-md-6";
+    imgCard.className = "col-6 col-md-6";
     downloadBtn.className = "btn btn-primary";
     downloadBtn.innerText = "Download";
-    containerDiv.append(img);
-    containerDiv.appendChild(downloadBtn);
-    previewImgContainer.append(containerDiv);
+    downloadBtn.id = "download-img-btn";
+    imgCard.append(img);
+    imgCard.appendChild(downloadBtn);
+    previewImgContainer.insertBefore(imgCard, previewImgContainer.firstChild);
     downloadBtn.download = `${data[0].filename}.${data[0].ext}`;
   });
 });
@@ -164,6 +167,7 @@ recordBtn.addEventListener("click", () => {
   }
 });
 
+//color picker
 backgroundColor.addEventListener("change", (e) => {
   bg = e.target.value;
   background(bg);

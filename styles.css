@@ -124,6 +124,10 @@ nav > div a.nav-item.nav-link:hover {
   margin: 0 auto;
 }
 
+#download-img-btn {
+  margin-top: 1vh;
+  margin-bottom: 3vh;
+}
 /* For responsiveness */
 @media only screen and (max-width: 992px) {
   #tab-container {
