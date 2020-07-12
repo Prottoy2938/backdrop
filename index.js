@@ -2,11 +2,19 @@ const eventContainer = document.querySelector("#dom-elements"); //initializing t
 const imageUpload = document.querySelector("#image-upload");
 const captureFrameBtn = document.querySelector("#capture-frame-btn");
 const previewImgContainer = document.querySelector("#preview-img-container");
+const previewVideoContainer = document.querySelector(
+  "#video-capture-container"
+);
+const recordBtn = document.querySelector("#record-canvas-btn");
+
 let video;
 let uNet;
 let segmentationImage;
 let bg;
 let uNetActive = false;
+let recording = false;
+let recorder;
+const chunks = [];
 
 // load uNet model
 function preload() {
@@ -24,28 +32,27 @@ function setup() {
   bg = loadImage("./assets/loading.jpg"); //initial loading image
 }
 
+//adding the dom elements, from p5js
+function draw() {
+  background(bg);
+  image(segmentationImage, 0, 0, width, height);
+}
+
 function gotResult(error, result) {
   if (error) {
     console.error(error);
     return;
   }
   if (!uNetActive) {
-    //doing stuff after the initial uNet model has loaded and working
+    //doing stuff after the initial uNet model has loaded and working, running this only once
     uNetActive = true;
     bg = loadImage("./assets/initial-background.jpg");
     const video = document.querySelector("video"); //getting the video after its created by p5js
     video.parentNode.insertBefore(eventContainer, video.nextSibling); //inserting the eventContainer after the video element [https://stackoverflow.com/questions/4793604/how-to-insert-an-element-after-another-element-in-javascript-without-using-a-lib]
     eventContainer.style.display = "block";
   }
-
   segmentationImage = result.backgroundMask;
   uNet.segment(video, gotResult);
-}
-
-//adding the dom elements, from p5js
-function draw() {
-  background(bg);
-  image(segmentationImage, 0, 0, width, height);
 }
 
 //Image upload handler
@@ -58,7 +65,7 @@ imageUpload.addEventListener("change", (e) => {
 //Image preview and download handler
 captureFrameBtn.addEventListener("click", () => {
   saveFrames("out", "png", 1, 25, (data) => {
-    //removing single image if theres more than 8 images
+    //removing single image if theres more than 6 images
     if (previewImgContainer.childElementCount + 1 > 6) {
       previewImgContainer.removeChild(
         previewImgContainer.getElementsByTagName("div")[0]
@@ -81,11 +88,6 @@ captureFrameBtn.addEventListener("click", () => {
   });
 });
 
-const recordBtn = document.querySelector("#record-canvas");
-let recording = false;
-let recorder;
-const chunks = [];
-
 function record() {
   chunks.length = 0;
   let stream = document.querySelector("canvas").captureStream(30);
@@ -102,26 +104,36 @@ function record() {
   //   recordBtn.onclick = record;
   // };
   recorder.start();
-  recordBtn.innerText = "stop recording";
 }
 
 function exportVideo(e) {
-  var blob = new Blob(chunks);
-  var vid = document.createElement("video");
-  vid.id = "recorded";
+  const blob = new Blob(chunks);
+  const vid = document.createElement("video");
+  vid.id = "preview-video";
+  vid.style.width = "400px";
+  vid.style.height = "294px";
+  // vid.id = "recorded";
   vid.controls = true;
   vid.src = URL.createObjectURL(blob);
-  document.body.appendChild(vid);
+  previewVideoContainer.appendChild(vid);
   vid.play();
 }
 
+//handling record-btn click
 recordBtn.addEventListener("click", () => {
   if (!recording) {
+    const previewVideo = document.querySelector("#preview-video");
+    if (previewVideo) {
+      previewVideoContainer.removeChild();
+    }
+    recordBtn.innerText = "stop recording";
+    recordBtn.className = "btn btn-danger";
     record();
     recording = true;
   } else {
     recording = false;
-    recorder.stop();
     recordBtn.innerText = "start recording";
+    recordBtn.className = "btn btn-success";
+    recorder.stop();
   }
 });
