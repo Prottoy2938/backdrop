@@ -63,6 +63,7 @@ captureFrameBtn.addEventListener("click", () => {
       const img = new Image(300, 200);
       const downloadBtn = document.createElement("a");
       img.src = data[i].imageData;
+      downloadBtn.href = data[i].imageData;
       img.className = "card-img-top";
       containerDiv.className = "col-6 col-md-6";
       downloadBtn.innerText = "Download";
@@ -70,8 +71,52 @@ captureFrameBtn.addEventListener("click", () => {
       previewImgContainer.append(containerDiv);
       containerDiv.append(img);
       containerDiv.appendChild(downloadBtn);
-      downloadBtn.href = data[i].imageData;
       downloadBtn.download = `${data[i].filename}.${data[i].ext}`;
     }
   });
+});
+
+const recordBtn = document.querySelector("#record-canvas");
+let recording = false;
+let recorder;
+const chunks = [];
+
+function record() {
+  chunks.length = 0;
+  let stream = document.querySelector("canvas").captureStream(30);
+  recorder = new MediaRecorder(stream);
+  recorder.ondataavailable = (e) => {
+    if (e.data.size) {
+      chunks.push(e.data);
+    }
+  };
+  recorder.onstop = exportVideo;
+  // recordBtn.onclick = (e) => {
+  //   recorder.stop();
+  //   recordBtn.innerText = "start recording";
+  //   recordBtn.onclick = record;
+  // };
+  recorder.start();
+  recordBtn.innerText = "stop recording";
+}
+
+function exportVideo(e) {
+  var blob = new Blob(chunks);
+  var vid = document.createElement("video");
+  vid.id = "recorded";
+  vid.controls = true;
+  vid.src = URL.createObjectURL(blob);
+  document.body.appendChild(vid);
+  vid.play();
+}
+
+recordBtn.addEventListener("click", () => {
+  if (!recording) {
+    record();
+    recording = true;
+  } else {
+    recording = false;
+    recorder.stop();
+    recordBtn.innerText = "start recording";
+  }
 });

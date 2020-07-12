@@ -20,6 +20,7 @@
   <body>
     <h1 id="title">Backdrop</h1>
     <div id="event-container" style="display: none;">
+      <!-- Background Input Start -->
       <label for="image-upload" id="image-upload-container">
         <span
           class="btn btn-warning"
@@ -41,6 +42,9 @@
         accept="image/*"
         style="display: none;"
       />
+      <!-- Background Input END -->
+
+      <!-- Image Capture Start -->
       <div id="image-capture-container">
         <button
           class="btn btn-secondary"
@@ -51,7 +55,18 @@
           Capture Images
         </button>
         <div id="preview-img-container" class="row"></div>
+        <!-- Image Capture END -->
       </div>
+      <!-- Video Capture Start -->
+      <div>
+        <button class="btn btn-success" id="record-canvas">
+          start recording
+        </button>
+        <!-- <button class="btn btn-danger">
+          Stop recording<span class="badge bg-secondary">9</span>
+        </button> -->
+      </div>
+      <!-- Video Capture End -->
     </div>
 
     <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
