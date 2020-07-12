@@ -45,6 +45,10 @@ video {
   width: 800px;
 }
 
+#preview-img-container {
+  width: 100%;
+}
+
 .card-img-top {
   display: block;
   margin-left: calc((100% - 300px) / 2);

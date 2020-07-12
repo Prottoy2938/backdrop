@@ -54,26 +54,29 @@ imageUpload.addEventListener("change", (e) => {
   background(bg);
 });
 
-//Image download handler
+//Image preview and download handler
 captureFrameBtn.addEventListener("click", () => {
   saveFrames("out", "png", 1, 25, (data) => {
-    //create a feature of capture-this-frame and show them all 8 images and allow them to download which frame they want to download
-    for (let i = 0; i < 4; i++) {
-      const containerDiv = document.createElement("div");
-      const img = new Image(300, 220);
-      const downloadBtn = document.createElement("a");
-      img.src = data[i].imageData;
-      downloadBtn.href = data[i].imageData;
-      img.className = "card-img-top";
-      img.style.width = "300px"; //need this to override bootstrap style
-      containerDiv.className = "col-6 col-md-6";
-      downloadBtn.className = "btn btn-primary";
-      downloadBtn.innerText = "Download";
-      previewImgContainer.append(containerDiv);
-      containerDiv.append(img);
-      containerDiv.appendChild(downloadBtn);
-      downloadBtn.download = `${data[i].filename}.${data[i].ext}`;
+    //removing single image if theres more than 8 images
+    if (previewImgContainer.childElementCount + 1 > 6) {
+      previewImgContainer.removeChild(
+        previewImgContainer.getElementsByTagName("div")[0]
+      );
     }
+    const containerDiv = document.createElement("div");
+    const img = new Image(300, 220);
+    const downloadBtn = document.createElement("a");
+    img.src = data[0].imageData;
+    downloadBtn.href = data[0].imageData;
+    img.className = "card-img-top";
+    img.style.width = "300px"; //need this to override bootstrap style
+    containerDiv.className = "col-6 col-md-6";
+    downloadBtn.className = "btn btn-primary";
+    downloadBtn.innerText = "Download";
+    containerDiv.append(img);
+    containerDiv.appendChild(downloadBtn);
+    previewImgContainer.append(containerDiv);
+    downloadBtn.download = `${data[0].filename}.${data[0].ext}`;
   });
 });
 
