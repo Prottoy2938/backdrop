@@ -58,19 +58,20 @@ imageUpload.addEventListener("change", (e) => {
 captureFrameBtn.addEventListener("click", () => {
   saveFrames("out", "png", 1, 25, (data) => {
     //create a feature of capture-this-frame and show them all 8 images and allow them to download which frame they want to download
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < 4; i++) {
       const containerDiv = document.createElement("div");
-      const img = new Image(200, 150);
-      const button = document.createElement("button");
-      containerDiv.className = "col-6 col-md-4";
+      const img = new Image(300, 200);
+      const downloadBtn = document.createElement("a");
       img.src = data[i].imageData;
       img.className = "card-img-top";
-      button.innerText = "Download";
-      button.className = "btn btn-primary";
+      containerDiv.className = "col-6 col-md-6";
+      downloadBtn.innerText = "Download";
+      downloadBtn.className = "btn btn-primary";
       previewImgContainer.append(containerDiv);
       containerDiv.append(img);
-      containerDiv.appendChild(button);
-      //downloadFile(data[i].imageData, data[i].filename, data[i].ext);
+      containerDiv.appendChild(downloadBtn);
+      downloadBtn.href = data[i].imageData;
+      downloadBtn.download = `${data[i].filename}.${data[i].ext}`;
     }
   });
 });
