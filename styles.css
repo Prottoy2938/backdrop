@@ -26,8 +26,13 @@ video {
   margin-top: 100px;
 }
 
+.row {
+  display: inline-flex;
+  float: right;
+}
+
 #image-capture-container {
-  width: 500px;
+  width: 800px;
   text-align: center;
 }
 
@@ -37,11 +42,10 @@ video {
 
 #video-capture-container {
   text-align: center;
-  width: 500px;
+  width: 800px;
 }
 
-/* test */
-.row {
-  display: inline-flex;
-  float: right;
+.card-img-top {
+  display: block;
+  margin-left: calc((100% - 300px) / 2);
 }

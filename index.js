@@ -34,7 +34,7 @@ function gotResult(error, result) {
     bg = loadImage("./assets/initial-background.jpg");
     const video = document.querySelector("video"); //getting the video after its created by p5js
     video.parentNode.insertBefore(eventContainer, video.nextSibling); //inserting the eventContainer after the video element [https://stackoverflow.com/questions/4793604/how-to-insert-an-element-after-another-element-in-javascript-without-using-a-lib]
-    eventContainer.style.display = "table";
+    eventContainer.style.display = "block";
   }
 
   segmentationImage = result.backgroundMask;
@@ -60,14 +60,15 @@ captureFrameBtn.addEventListener("click", () => {
     //create a feature of capture-this-frame and show them all 8 images and allow them to download which frame they want to download
     for (let i = 0; i < 4; i++) {
       const containerDiv = document.createElement("div");
-      const img = new Image(300, 200);
+      const img = new Image(300, 220);
       const downloadBtn = document.createElement("a");
       img.src = data[i].imageData;
       downloadBtn.href = data[i].imageData;
       img.className = "card-img-top";
+      img.style.width = "300px"; //need this to override bootstrap style
       containerDiv.className = "col-6 col-md-6";
-      downloadBtn.innerText = "Download";
       downloadBtn.className = "btn btn-primary";
+      downloadBtn.innerText = "Download";
       previewImgContainer.append(containerDiv);
       containerDiv.append(img);
       containerDiv.appendChild(downloadBtn);
