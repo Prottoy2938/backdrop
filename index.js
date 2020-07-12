@@ -73,6 +73,7 @@ function startRecording() {
 //displays captured video on the dom
 function exportVideo(e) {
   const blob = new Blob(chunks);
+  console.log(blob, chunks);
   const vid = document.createElement("video");
   vid.id = "preview-video";
   vid.style.width = "400px";
@@ -81,12 +82,15 @@ function exportVideo(e) {
   vid.src = URL.createObjectURL(blob);
   previewVideoContainer.appendChild(vid);
   vid.play();
-  //adding download btn
-  const downloadVideoBtn = document.createElement("button");
+  //creting video download btn
+  const downloadVideoBtn = document.createElement("a");
   downloadVideoBtn.innerText = "Download";
   downloadVideoBtn.className = "btn btn-light";
   downloadVideoBtn.id = "download-video-btn";
   previewVideoContainer.appendChild(downloadVideoBtn);
+  //connecting the download btn with the video source
+  downloadVideoBtn.href = vid.src;
+  downloadVideoBtn.download = "edited-background.mp4";
 }
 
 //Image upload handler
@@ -144,7 +148,6 @@ recordBtn.addEventListener("click", () => {
     recordBtn.appendChild(counterSpan);
     startRecording();
     updateTimer = setInterval(() => {
-      console.log(counterSpan.innerText);
       counterSpan.innerText = Number(counterSpan.innerText) + 1; //updating video capture counter timer
     }, 1000);
   }
