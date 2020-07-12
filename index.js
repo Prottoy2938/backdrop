@@ -156,7 +156,7 @@ recordBtn.addEventListener("click", () => {
   else {
     clearInterval(updateTimer);
     recording = false;
-    recordBtn.innerHTML = "start a new recording"; //using innerHTML, which also removes the `counterSpan` element
+    recordBtn.innerText = "start a new recording"; //using innerHTML, which also removes the `counterSpan` element
     recordBtn.className = "btn btn-light";
     recorder.stop(); //recorder.stop calls `exportVideo` function
   }

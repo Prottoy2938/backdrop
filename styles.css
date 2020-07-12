@@ -11,7 +11,7 @@ html {
   margin: 5vh auto;
   margin-top: 1vh;
   cursor: pointer;
-  padding: 5px 10px;
+  padding: 5px 20px;
   font-size: 22px;
   font-family: "Josefin Sans", sans-serif;
 }
@@ -84,6 +84,7 @@ nav > div a.nav-item.nav-link:hover {
 
 #capture-frame-btn {
   margin: 0 auto;
+  margin-bottom: 2vh;
 }
 
 #video-capture-container {
@@ -122,8 +123,21 @@ nav > div a.nav-item.nav-link:hover {
   margin: 0 auto;
 }
 
+/* For responsiveness */
 @media only screen and (max-width: 992px) {
+  #tab-container {
+    margin-top: 5vh;
+  }
   .webcam-feed {
     display: none;
+  }
+  canvas {
+    margin-left: calc((90vw - 540px) / 2);
+  }
+  #background-color-picker {
+    margin-left: 15px;
+  }
+  #image-upload-container {
+    margin-left: 20vw;
   }
 }
