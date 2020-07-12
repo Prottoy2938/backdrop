@@ -31,6 +31,15 @@ video {
   float: right;
 }
 
+#event-container {
+  width: 100%;
+  --bs-gutter-x: none;
+}
+
+#event-container .row {
+  --bs-gutter-x: none;
+}
+
 #image-capture-container {
   width: 800px;
   text-align: center;
@@ -52,4 +61,10 @@ video {
 .card-img-top {
   display: block;
   margin-left: calc((100% - 300px) / 2);
+}
+
+@media only screen and (max-width: 992px) {
+  .webcam-feed {
+    display: none;
+  }
 }

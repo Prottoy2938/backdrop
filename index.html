@@ -19,96 +19,102 @@
   </head>
   <body>
     <h1 id="title">Backdrop</h1>
-    <div id="event-container" style="display: none;">
-      <!-- Background Input Start -->
-      <label for="image-upload" id="image-upload-container">
-        <span
-          class="btn btn-warning"
-          data-toggle="tooltip"
-          title="import background image from device"
-        >
-          <img
-            src="./assets/folder-search.svg"
-            alt="import background image from device"
-            width="20px"
-            height="20px"
+    <div id="dom-elements" style="display: none;">
+      <div class="row" id="event-container">
+        <div class="col col-lg-6 col-md-12">
+          <!-- Background Input Start -->
+          <label for="image-upload" id="image-upload-container">
+            <span
+              class="btn btn-warning"
+              data-toggle="tooltip"
+              title="import background image from device"
+            >
+              <img
+                src="./assets/folder-search.svg"
+                alt="import background image from device"
+                width="20px"
+                height="20px"
+              />
+              New Background Image
+            </span>
+          </label>
+          <input
+            id="image-upload"
+            type="file"
+            accept="image/*"
+            style="display: none;"
           />
-          New Background Image
-        </span>
-      </label>
-      <input
-        id="image-upload"
-        type="file"
-        accept="image/*"
-        style="display: none;"
-      />
-      <!-- Background Input END -->
+        </div>
 
-      <div class="row">
-        <div class="col-xs-12">
-          <nav>
-            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-              <a
-                class="nav-item nav-link active"
-                id="nav-image-capture-tab"
-                data-toggle="tab"
-                href="#nav-image-capture"
-                role="tab"
-                aria-controls="nav-image-capture"
-                aria-selected="true"
-                >Image Capture</a
-              >
-              <a
-                class="nav-item nav-link"
-                id="nav-video-capture-tab"
-                data-toggle="tab"
-                href="#nav-video-capture"
-                role="tab"
-                aria-controls="nav-video-capture"
-                aria-selected="false"
-                >Video Capture</a
-              >
-            </div>
-          </nav>
-          <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-            <!-- Image Capture Start -->
-            <div
-              class="tab-pane fade show active"
-              id="nav-image-capture"
-              role="tabpanel"
-              aria-labelledby="nav-image-capture-tab"
-            >
-              <div id="image-capture-container">
-                <button
-                  class="btn btn-secondary"
-                  id="capture-frame-btn"
-                  data-toggle="tooltip"
-                  title="capture and download images from the current video instance"
+        <!-- Background Input END -->
+        <div class="col col-lg-6 col-md-12">
+          <div class="row">
+            <div class="col-xs-12">
+              <nav>
+                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                  <a
+                    class="nav-item nav-link active"
+                    id="nav-image-capture-tab"
+                    data-toggle="tab"
+                    href="#nav-image-capture"
+                    role="tab"
+                    aria-controls="nav-image-capture"
+                    aria-selected="true"
+                    >Image Capture</a
+                  >
+                  <a
+                    class="nav-item nav-link"
+                    id="nav-video-capture-tab"
+                    data-toggle="tab"
+                    href="#nav-video-capture"
+                    role="tab"
+                    aria-controls="nav-video-capture"
+                    aria-selected="false"
+                    >Video Capture</a
+                  >
+                </div>
+              </nav>
+              <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                <!-- Image Capture Start -->
+                <div
+                  class="tab-pane fade show active"
+                  id="nav-image-capture"
+                  role="tabpanel"
+                  aria-labelledby="nav-image-capture-tab"
                 >
-                  Capture Images
-                </button>
-                <div id="preview-img-container" class="row"></div>
-              </div>
-            </div>
-            <!-- Image Capture END -->
+                  <div id="image-capture-container">
+                    <button
+                      class="btn btn-secondary"
+                      id="capture-frame-btn"
+                      data-toggle="tooltip"
+                      title="capture and download images from the current video instance"
+                    >
+                      Capture Images
+                    </button>
+                    <div id="preview-img-container" class="row"></div>
+                  </div>
+                </div>
+                <!-- Image Capture END -->
 
-            <!-- Video Capture Start -->
-            <div
-              class="tab-pane fade"
-              id="nav-video-capture"
-              role="tabpanel"
-              aria-labelledby="nav-video-capture-tab"
-            >
-              <div id="video-capture-container">
-                <button class="btn btn-success" id="record-canvas">
-                  start recording
-                </button>
-                <!-- <button class="btn btn-danger">
+                <!-- Video Capture Start -->
+                <div
+                  class="tab-pane fade"
+                  id="nav-video-capture"
+                  role="tabpanel"
+                  aria-labelledby="nav-video-capture-tab"
+                >
+                  <div id="video-capture-container">
+                    <button class="btn btn-success" id="record-canvas">
+                      start recording
+                    </button>
+                    <!-- <button class="btn btn-danger">
           Stop recording<span class="badge bg-secondary">9</span>
         </button> -->
+                  </div>
+                </div>
+                <!-- Video Capture End -->
               </div>
             </div>
-            <!-- Video Capture End -->
           </div>
         </div>
       </div>

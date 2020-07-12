@@ -1,4 +1,4 @@
-const eventContainer = document.querySelector("#event-container"); //initializing the element, not showing it yet [look at `gotResult` function]
+const eventContainer = document.querySelector("#dom-elements"); //initializing the element, not showing it yet [look at `gotResult` function]
 const imageUpload = document.querySelector("#image-upload");
 const captureFrameBtn = document.querySelector("#capture-frame-btn");
 const previewImgContainer = document.querySelector("#preview-img-container");
@@ -18,6 +18,7 @@ function setup() {
   createCanvas(540, 400);
   video = createCapture(VIDEO);
   video.size(200, 150);
+  video.class("webcam-feed");
   segmentationImage = createImage(width, height);
   uNet.segment(video, gotResult); // initial segmentation
   bg = loadImage("./assets/loading.jpg"); //initial loading image
