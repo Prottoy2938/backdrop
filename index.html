@@ -44,73 +44,70 @@
       />
       <!-- Background Input END -->
 
-      <!-- Image Capture Start -->
-      <div id="image-capture-container">
-        <button
-          class="btn btn-secondary"
-          id="capture-frame-btn"
-          data-toggle="tooltip"
-          title="capture and download images from the current video instance"
-        >
-          Capture Images
-        </button>
-        <div id="preview-img-container" class="row"></div>
-        <!-- Image Capture END -->
-      </div>
-      <!-- Video Capture Start -->
-      <div>
-        <button class="btn btn-success" id="record-canvas">
-          start recording
-        </button>
-        <!-- <button class="btn btn-danger">
+      <div class="row">
+        <div class="col-xs-12">
+          <nav>
+            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+              <a
+                class="nav-item nav-link active"
+                id="nav-image-capture-tab"
+                data-toggle="tab"
+                href="#nav-image-capture"
+                role="tab"
+                aria-controls="nav-image-capture"
+                aria-selected="true"
+                >Image Capture</a
+              >
+              <a
+                class="nav-item nav-link"
+                id="nav-video-capture-tab"
+                data-toggle="tab"
+                href="#nav-video-capture"
+                role="tab"
+                aria-controls="nav-video-capture"
+                aria-selected="false"
+                >Video Capture</a
+              >
+            </div>
+          </nav>
+          <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+            <div
+              class="tab-pane fade show active"
+              id="nav-image-capture"
+              role="tabpanel"
+              aria-labelledby="nav-image-capture-tab"
+            >
+              <!-- Image Capture Start -->
+              <div id="image-capture-container">
+                <button
+                  class="btn btn-secondary"
+                  id="capture-frame-btn"
+                  data-toggle="tooltip"
+                  title="capture and download images from the current video instance"
+                >
+                  Capture Images
+                </button>
+                <div id="preview-img-container" class="row"></div>
+              </div>
+              <!-- Image Capture END -->
+            </div>
+            <div
+              class="tab-pane fade"
+              id="nav-video-capture"
+              role="tabpanel"
+              aria-labelledby="nav-video-capture-tab"
+            >
+              <!-- Video Capture Start -->
+              <div>
+                <button class="btn btn-success" id="record-canvas">
+                  start recording
+                </button>
+                <!-- <button class="btn btn-danger">
           Stop recording<span class="badge bg-secondary">9</span>
         </button> -->
-      </div>
-      <!-- Video Capture End -->
-    </div>
-
-    <div class="row">
-      <div class="col-xs-12">
-        <nav>
-          <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-            <a
-              class="nav-item nav-link active"
-              id="nav-image-capture-tab"
-              data-toggle="tab"
-              href="#nav-image-capture"
-              role="tab"
-              aria-controls="nav-image-capture"
-              aria-selected="true"
-              >Image Capture</a
-            >
-            <a
-              class="nav-item nav-link"
-              id="nav-video-capture-tab"
-              data-toggle="tab"
-              href="#nav-video-capture"
-              role="tab"
-              aria-controls="nav-video-capture"
-              aria-selected="false"
-              >Video Capture</a
-            >
-          </div>
-        </nav>
-        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-          <div
-            class="tab-pane fade show active"
-            id="nav-image-capture"
-            role="tabpanel"
-            aria-labelledby="nav-image-capture-tab"
-          >
-            Et
-          </div>
-          <div
-            class="tab-pane fade"
-            id="nav-video-capture"
-            role="tabpanel"
-            aria-labelledby="nav-video-capture-tab"
-          >
-            Et et consectetur ipsum labore excepteur est proident excepteur ad
+              </div>
+              <!-- Video Capture End -->
+            </div>
           </div>
         </div>
       </div>
