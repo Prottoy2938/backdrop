@@ -175,9 +175,16 @@ nav > div a.nav-item.nav-link:hover {
   }
 
   #image-capture-container {
-    width: 100vw;
+    width: 80vw; /* 10 + 10 vw is margin  */
   }
   #video-capture-container {
-    width: 100vw;
+    width: 80vw;
+  }
+
+  .col-6 {
+    width: 100% !important;
+  }
+  #event-container .row {
+    float: none;
   }
 }
