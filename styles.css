@@ -187,4 +187,8 @@ nav > div a.nav-item.nav-link:hover {
   #event-container .row {
     float: none;
   }
+  canvas {
+    width: 450px;
+    height: 334px;
+  }
 }
