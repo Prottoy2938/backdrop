@@ -8,6 +8,7 @@ const previewVideoContainer = document.querySelector(
 const recordBtn = document.querySelector("#record-canvas-btn");
 const backgroundColor = document.querySelector("#background-color-picker");
 const recordIconClone = document.querySelector("#record-icon").cloneNode(true);
+const loadingTime = document.querySelector("#loading-time")
 
 let video;
 let uNet;
@@ -18,11 +19,20 @@ let recording = false;
 let recorder;
 const chunks = [];
 let updateTimer;
+let timeCounter = 60; //loading time component
 
 // load uNet model
 function preload() {
   uNet = ml5.uNet("face");
 }
+
+function intervalFunc() {
+  timeCounter = timeCounter - 1
+  loadingTime.innerText = `Estimated loading time: ${timeCounter} seconds`
+}
+
+const captureInterval = setInterval(
+  intervalFunc(), 1000);
 
 //p5js initial setup
 function setup() {
@@ -33,6 +43,7 @@ function setup() {
   segmentationImage = createImage(width, height);
   uNet.segment(video, gotResult); // initial segmentation
   bg = loadImage("./assets/loading.jpg"); //initial loading image
+
 }
 
 //adding the dom elements, from p5js. this function runs continuously
@@ -53,6 +64,8 @@ function gotResult(error, result) {
     const video = document.querySelector("video"); //getting the video after its created by p5js
     video.parentNode.insertBefore(eventContainer, video.nextSibling); //inserting the eventContainer after the video element [https://stackoverflow.com/questions/4793604/how-to-insert-an-element-after-another-element-in-javascript-without-using-a-lib]
     eventContainer.style.display = "block";
+    loadingTime.style.display = "none"
+    clearInterval(captureInterval)
   }
   segmentationImage = result.backgroundMask;
   uNet.segment(video, gotResult);
