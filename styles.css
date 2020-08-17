@@ -16,6 +16,11 @@ html {
   font-family: "Josefin Sans", sans-serif;
 }
 
+#loading-time {
+  text-align: center;
+  margin-bottom: 2vh;
+}
+
 canvas {
   float: left;
   margin-left: calc((100vw - (540px + 200px)) / 2);
@@ -41,25 +46,27 @@ video {
 #event-container .row {
   --bs-gutter-x: none;
 }
+
 .nav-link.active {
   background-color: #e5e9e9;
   color: black;
 }
 
-nav > div a.nav-item.nav-link,
-nav > div a.nav-item.nav-link {
+nav>div a.nav-item.nav-link,
+nav>div a.nav-item.nav-link {
   color: black;
   background-color: white;
 }
 
-nav > div a.nav-item.nav-link:hover,
-nav > div a.nav-item.nav-link:focus {
+nav>div a.nav-item.nav-link:hover,
+nav>div a.nav-item.nav-link:focus {
   border: none;
   background-color: #e5e9e9;
   color: black;
   transition: background 0.2s linear;
 }
-nav > div a.nav-item.nav-link:hover {
+
+nav>div a.nav-item.nav-link:hover {
   border-radius: 0;
 }
 
@@ -95,6 +102,7 @@ nav > div a.nav-item.nav-link:hover {
   text-align: center;
   width: 800px;
 }
+
 #record-icon {
   padding: 0;
 }
@@ -124,6 +132,7 @@ nav > div a.nav-item.nav-link:hover {
   margin-top: 1vh;
   margin-bottom: 3vh;
 }
+
 #record-canvas-btn span {
   margin-left: 5px;
 }
@@ -150,20 +159,25 @@ nav > div a.nav-item.nav-link:hover {
   right: 2vh;
   width: 35px;
 }
+
 /* For responsiveness */
 @media only screen and (max-width: 992px) {
   #tab-container {
     margin-top: 5vh;
   }
+
   .webcam-feed {
     display: none;
   }
+
   canvas {
     margin-left: calc((90vw - 540px) / 2);
   }
+
   #background-color-picker {
     margin-left: 15px;
   }
+
   #image-upload-container {
     margin-left: 20vw;
   }
@@ -175,8 +189,10 @@ nav > div a.nav-item.nav-link:hover {
   }
 
   #image-capture-container {
-    width: 80vw; /* 10 + 10 vw is margin  */
+    width: 80vw;
+    /* 10 + 10 vw is margin  */
   }
+
   #video-capture-container {
     width: 80vw;
   }
@@ -184,9 +200,11 @@ nav > div a.nav-item.nav-link:hover {
   .col-6 {
     width: 100% !important;
   }
+
   #event-container .row {
     float: none;
   }
+
   canvas {
     width: 450px;
     height: 334px;

@@ -19,20 +19,23 @@ let recording = false;
 let recorder;
 const chunks = [];
 let updateTimer;
-let timeCounter = 60; //loading time component
+let timeCounter = 45; //loading time component
 
 // load uNet model
 function preload() {
   uNet = ml5.uNet("face");
 }
 
-function intervalFunc() {
-  timeCounter = timeCounter - 1
-  loadingTime.innerText = `Estimated loading time: ${timeCounter} seconds`
-}
 
-const captureInterval = setInterval(
-  intervalFunc(), 1000);
+
+const captureInterval = setInterval(() => {
+  if (timeCounter !== 0) {
+    timeCounter = timeCounter - 1;
+    console.log(timeCounter)
+    loadingTime.innerText = `Estimated loading time: ${timeCounter} seconds`
+  }
+
+}, 1000);
 
 //p5js initial setup
 function setup() {
