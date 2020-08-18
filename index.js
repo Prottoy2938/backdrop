@@ -54,7 +54,8 @@ function setup() {
   video.class("webcam-feed");
   segmentationImage = createImage(width, height);
   uNet.segment(video, gotResult); // initial segmentation
-  bg = loadImage("./assets/loading.jpg"); //initial loading image
+  // bg = loadImage("./assets/loading.jpg"); //initial loading image
+  bg = '#34eb89'
 
 }
 
@@ -72,7 +73,8 @@ function gotResult(error, result) {
   if (!uNetActive) {
     //doing stuff after the initial uNet model has loaded and working, running this only once
     uNetActive = true;
-    bg = loadImage("./assets/initial-background.jpg");
+    // bg = loadImage("./assets/initial-background.jpg");
+    bg = '#34eb89'
     const video = document.querySelector("video"); //getting the video after its created by p5js
     video.parentNode.insertBefore(eventContainer, video.nextSibling); //inserting the eventContainer after the video element [https://stackoverflow.com/questions/4793604/how-to-insert-an-element-after-another-element-in-javascript-without-using-a-lib]
     eventContainer.style.display = "block";
