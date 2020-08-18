@@ -9,7 +9,6 @@ const recordBtn = document.querySelector("#record-canvas-btn");
 const backgroundColor = document.querySelector("#background-color-picker");
 const recordIconClone = document.querySelector("#record-icon").cloneNode(true);
 const loadingTime = document.querySelector("#loading-time")
-const recordAudio = document.querySelector("#audio-recorder")
 
 
 let video;
@@ -24,18 +23,10 @@ let updateTimer;
 let timeCounter = 45; //loading time component
 
 
-let audioRecorder;
-// An instance of AudioContext
-const audioContext = new AudioContext();
-
-
-
 // load uNet model
 function preload() {
   uNet = ml5.uNet("face");
 }
-
-
 
 const captureInterval = setInterval(() => {
   if (timeCounter !== 0) {
@@ -54,8 +45,7 @@ function setup() {
   video.class("webcam-feed");
   segmentationImage = createImage(width, height);
   uNet.segment(video, gotResult); // initial segmentation
-  // bg = loadImage("./assets/loading.jpg"); //initial loading image
-  bg = '#34eb89'
+  bg = '#34eb89' //initial image
 
 }
 
@@ -73,8 +63,7 @@ function gotResult(error, result) {
   if (!uNetActive) {
     //doing stuff after the initial uNet model has loaded and working, running this only once
     uNetActive = true;
-    // bg = loadImage("./assets/initial-background.jpg");
-    bg = '#34eb89'
+    bg = '#34eb89' //initial image
     const video = document.querySelector("video"); //getting the video after its created by p5js
     video.parentNode.insertBefore(eventContainer, video.nextSibling); //inserting the eventContainer after the video element [https://stackoverflow.com/questions/4793604/how-to-insert-an-element-after-another-element-in-javascript-without-using-a-lib]
     eventContainer.style.display = "block";
@@ -87,30 +76,15 @@ function gotResult(error, result) {
 
 //starts capturing video from canvas and saving that data on `chunks` [https://stackoverflow.com/questions/42437971/exporting-a-video-in-p5-js]
 function startRecording() {
-
-
   //handling music
   navigator.mediaDevices.getUserMedia({
     audio: true
   }).then(strm => {
-    if (window.URL) {
-      recordAudio.srcObject = strm;
-    } else {
-      recordAudio.src = strm;
-    }
-    // var audioCtx = new AudioContext();
-    // // create a stream from our AudioContext
-    // var dest = audioCtx.createMediaStreamDestination();
-    // let aStream = dest.stream;
-    // // connect our video element's output to the stream
-    // var sourceNode = audioCtx.createMediaElementSource(recordAudio);
-    // sourceNode.connect(dest);
-
     chunks.length = 0;
     let canvasStream = document.querySelector("canvas").captureStream(30);
-    // stream.addTrack(recordAudio.getAudioTracks()[0]);
-    // canvasStream.addTrack(strm);
+    //merging both the audio and the video stream
     let combined = new MediaStream([...canvasStream.getTracks(), ...strm.getTracks()]);
+
     recorder = new MediaRecorder(combined);
 
     recorder.ondataavailable = (e) => {
@@ -119,18 +93,13 @@ function startRecording() {
       }
     };
     recorder.onstop = exportVideo;
-    recorder.start();
+    recorder.start(); //starting the recorder
   }, error => {
-    // Something went wrong, or the browser does not support getUserMedia
+    // Something went wrong, user didn't gave permission. 
   });
-
-
-
-
 }
 
-// https://codepen.io/Sambego/pen/XNOJqM?editors=0010
-// https://stackoverflow.com/questions/39302814/mediastream-capture-canvas-and-audio-simultaneously
+
 
 //displays captured video on the dom
 function exportVideo(e) {
