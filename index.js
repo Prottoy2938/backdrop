@@ -91,13 +91,23 @@ function startRecording() {
   navigator.mediaDevices.getUserMedia({
     audio: true
   }).then(strm => {
-    // Create the audio nodes
-    audioRecorder = audioContext.createMediaStreamSource(strm);
-    // recordAudio.src = strm;
+    if (window.URL) {
+      recordAudio.srcObject = strm;
+    } else {
+      recordAudio.src = strm;
+    }
+    var audioCtx = new AudioContext();
+    // create a stream from our AudioContext
+    var dest = audioCtx.createMediaStreamDestination();
+    let aStream = dest.stream;
+    // connect our video element's output to the stream
+    var sourceNode = audioCtx.createMediaElementSource(recordAudio);
+    sourceNode.connect(dest);
+
     chunks.length = 0;
     let stream = document.querySelector("canvas").captureStream(30);
     // stream.addTrack(recordAudio.getAudioTracks()[0]);
-    stream.addTrack(audioRecorder.getAudioTracks()[0]);
+    stream.addTrack(aStream.getAudioTracks()[0]);
 
     recorder = new MediaRecorder(stream);
 
