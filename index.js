@@ -9,6 +9,8 @@ const recordBtn = document.querySelector("#record-canvas-btn");
 const backgroundColor = document.querySelector("#background-color-picker");
 const recordIconClone = document.querySelector("#record-icon").cloneNode(true);
 const loadingTime = document.querySelector("#loading-time")
+const recordAudio = document.querySelector("#audio-recorder")
+
 
 let video;
 let uNet;
@@ -20,6 +22,13 @@ let recorder;
 const chunks = [];
 let updateTimer;
 let timeCounter = 45; //loading time component
+
+
+let audioRecorder;
+// An instance of AudioContext
+const audioContext = new AudioContext();
+
+
 
 // load uNet model
 function preload() {
@@ -76,17 +85,40 @@ function gotResult(error, result) {
 
 //starts capturing video from canvas and saving that data on `chunks` [https://stackoverflow.com/questions/42437971/exporting-a-video-in-p5-js]
 function startRecording() {
-  chunks.length = 0;
-  let stream = document.querySelector("canvas").captureStream(30);
-  recorder = new MediaRecorder(stream);
-  recorder.ondataavailable = (e) => {
-    if (e.data.size) {
-      chunks.push(e.data);
-    }
-  };
-  recorder.onstop = exportVideo;
-  recorder.start();
+
+
+  //handling music
+  navigator.mediaDevices.getUserMedia({
+    audio: true
+  }).then(strm => {
+    // Create the audio nodes
+    audioRecorder = audioContext.createMediaStreamSource(strm);
+    // recordAudio.src = strm;
+    chunks.length = 0;
+    let stream = document.querySelector("canvas").captureStream(30);
+    // stream.addTrack(recordAudio.getAudioTracks()[0]);
+    stream.addTrack(audioRecorder.getAudioTracks()[0]);
+
+    recorder = new MediaRecorder(stream);
+
+    recorder.ondataavailable = (e) => {
+      if (e.data.size) {
+        chunks.push(e.data);
+      }
+    };
+    recorder.onstop = exportVideo;
+    recorder.start();
+  }, error => {
+    // Something went wrong, or the browser does not support getUserMedia
+  });
+
+
+
+
 }
+
+// https://codepen.io/Sambego/pen/XNOJqM?editors=0010
+// https://stackoverflow.com/questions/39302814/mediastream-capture-canvas-and-audio-simultaneously
 
 //displays captured video on the dom
 function exportVideo(e) {
