@@ -24,11 +24,17 @@ let updateTimer;
 let timeCounter = 45; //loading time component
 
 
-let audioRecorder;
-// An instance of AudioContext
-const audioContext = new AudioContext();
-
-
+navigator.mediaDevices.getUserMedia({
+  audio: true,
+}).then(strm => {
+  if (window.URL) {
+    recordAudio.srcObject = strm;
+  } else {
+    recordAudio.src = strm;
+  }
+}, error => {
+  // Something went wrong, or the browser does not support getUserMedia
+});
 
 // load uNet model
 function preload() {
@@ -85,46 +91,30 @@ function gotResult(error, result) {
 
 //starts capturing video from canvas and saving that data on `chunks` [https://stackoverflow.com/questions/42437971/exporting-a-video-in-p5-js]
 function startRecording() {
+  let audioCtx = new AudioContext();
+  // create a stream from our AudioContext
+  let dest = audioCtx.createMediaStreamDestination();
+  // connect our video element's output to the stream
+  let sourceNode = audioCtx.createMediaElementSource(recordAudio);
+  sourceNode.connect(dest);
+  sourceNode.connect(audioCtx.destination);
+  let aStream = dest.stream.getAudioTracks()[0];
 
 
-  //handling music
-  navigator.mediaDevices.getUserMedia({
-    audio: true
-  }).then(strm => {
-    if (window.URL) {
-      recordAudio.srcObject = strm;
-    } else {
-      recordAudio.src = strm;
+  chunks.length = 0;
+  let canvasStream = document.querySelector("canvas").captureStream(30);
+  // stream.addTrack(recordAudio.getAudioTracks()[0]);
+  canvasStream.addTrack(aStream);
+
+  recorder = new MediaRecorder(canvasStream);
+
+  recorder.ondataavailable = (e) => {
+    if (e.data.size) {
+      chunks.push(e.data);
     }
-    var audioCtx = new AudioContext();
-    // create a stream from our AudioContext
-    var dest = audioCtx.createMediaStreamDestination();
-    let aStream = dest.stream;
-    // connect our video element's output to the stream
-    var sourceNode = audioCtx.createMediaElementSource(recordAudio);
-    sourceNode.connect(dest);
-
-    chunks.length = 0;
-    let stream = document.querySelector("canvas").captureStream(30);
-    // stream.addTrack(recordAudio.getAudioTracks()[0]);
-    stream.addTrack(aStream.getAudioTracks()[0]);
-
-    recorder = new MediaRecorder(stream);
-
-    recorder.ondataavailable = (e) => {
-      if (e.data.size) {
-        chunks.push(e.data);
-      }
-    };
-    recorder.onstop = exportVideo;
-    recorder.start();
-  }, error => {
-    // Something went wrong, or the browser does not support getUserMedia
-  });
-
-
-
-
+  };
+  recorder.onstop = exportVideo;
+  recorder.start();
 }
 
 // https://codepen.io/Sambego/pen/XNOJqM?editors=0010
@@ -133,7 +123,6 @@ function startRecording() {
 //displays captured video on the dom
 function exportVideo(e) {
   const blob = new Blob(chunks);
-  console.log(blob, chunks);
   const vid = document.createElement("video");
   vid.id = "preview-video";
   vid.style.width = "400px";
@@ -223,6 +212,7 @@ recordBtn.addEventListener("click", () => {
     recordBtn.innerText = "start a new recording"; //using innerHTML, which also removes the `counterSpan` element
     recordBtn.className = "btn btn-light";
     recordBtn.appendChild(recordIconClone);
+    recordAudio.pause()
     recorder.stop(); //recorder.stop calls `exportVideo` function
   }
 });
