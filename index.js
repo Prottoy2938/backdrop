@@ -20,6 +20,8 @@ let recorder;
 const chunks = [];
 let updateTimer;
 let timeCounter = 45; //loading time component
+let checkCameraPermissionOnce = true;
+let runWebcamWarningOnce = true;
 
 // BOOTSTRAP UTILS START ==>
 const VidInsPopover = new bootstrap.Popover(
@@ -75,16 +77,26 @@ function draw() {
 function gotResult(error, result) {
   if (error) {
     console.error(error);
-    webcamWarningModal.show();
     return;
   }
+
+  if (!checkCameraPermissionOnce && runWebcamWarningOnce) {
+    webcamWarningModal.show();
+    runWebcamWarningOnce = false;
+  }
+
+  //checking if the user gave permission
+  if (video) {
+    video.loadPixels();
+
+    if (!(video.pixels[1] > 0) && checkCameraPermissionOnce) {
+      console.log("User didn't gave permisson");
+      checkCameraPermissionOnce = false;
+    }
+  }
+
   //doing stuff after the initial uNet model has loaded and working, running this only once
   if (!runOnceUnet) {
-    video.loadPixels();
-    if (video.pixels[1] > 0) {
-    } else {
-      console.log("User didn't gave permisson");
-    }
     runOnceUnet = true;
     bg = "#34eb89"; //initial image
     const video = document.querySelector("video"); //getting the video after its created by p5js
