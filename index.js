@@ -58,12 +58,7 @@ const captureInterval = setInterval(() => {
 //p5js initial setup
 function setup() {
   createCanvas(540, 400);
-  console.log("I'm running before the createCapture function");
-  video = createCapture(VIDEO, function (e) {
-    console.log(e);
-    console.log("I'm inside the createCapture callback");
-  });
-  console.log("I'm running after the createCapture function");
+  video = createCapture(VIDEO);
   video.size(200, 150); //displaying the main image on the side
   video.class("webcam-feed");
   segmentationImage = createImage(width, height);
@@ -78,7 +73,6 @@ function draw() {
 }
 
 function gotResult(error, result) {
-  console.log("I got the result, I'm running inside the gotResult function");
   if (error) {
     console.error(error);
     webcamWarningModal.show();
