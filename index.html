@@ -108,25 +108,50 @@
                   aria-labelledby="nav-video-capture-tab"
                 >
                   <div id="video-capture-container">
-                    <button class="btn btn-light" id="record-canvas-btn">
-                      Start Recording
-                      <span class="badge" id="record-icon"
+                    <div id="vid-ins-container">
+                      <button class="btn btn-light" id="record-canvas-btn">
+                        Start Recording
+                        <span class="badge" id="record-icon"
+                          ><svg
+                            width="1em"
+                            height="1em"
+                            viewBox="0 0 16 16"
+                            class="bi bi-camera-video-fill"
+                            fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M2.667 3h6.666C10.253 3 11 3.746 11 4.667v6.666c0 .92-.746 1.667-1.667 1.667H2.667C1.747 13 1 12.254 1 11.333V4.667C1 3.747 1.746 3 2.667 3z"
+                            />
+                            <path
+                              d="M7.404 8.697l6.363 3.692c.54.313 1.233-.066 1.233-.697V4.308c0-.63-.693-1.01-1.233-.696L7.404 7.304a.802.802 0 0 0 0 1.393z"
+                            /></svg
+                        ></span>
+                      </button>
+                      <a
+                        tabindex="0"
+                        class="btn btn-light popover-dismiss-vid"
+                        id="vid-ins-popover"
+                        role="button"
+                        data-toggle="popover"
+                        data-trigger="focus"
+                        title="Record Video"
+                        data-content="Record video from the stream, you can also download the captured video.
+                         Note that, the audio might be a little bit out of sync"
                         ><svg
                           width="1em"
                           height="1em"
                           viewBox="0 0 16 16"
-                          class="bi bi-camera-video-fill"
+                          class="bi bi-info-circle-fill"
                           fill="currentColor"
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            d="M2.667 3h6.666C10.253 3 11 3.746 11 4.667v6.666c0 .92-.746 1.667-1.667 1.667H2.667C1.747 13 1 12.254 1 11.333V4.667C1 3.747 1.746 3 2.667 3z"
-                          />
-                          <path
-                            d="M7.404 8.697l6.363 3.692c.54.313 1.233-.066 1.233-.697V4.308c0-.63-.693-1.01-1.233-.696L7.404 7.304a.802.802 0 0 0 0 1.393z"
+                            fill-rule="evenodd"
+                            d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
                           /></svg
-                      ></span>
-                    </button>
+                      ></a>
+                    </div>
                   </div>
                 </div>
                 <!-- Video Capture and Recording  End -->
@@ -160,7 +185,28 @@
                         <path d="M3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
                       </svg>
                     </button>
-
+                    <a
+                      tabindex="0"
+                      class="btn btn-light popover-dismiss-img"
+                      id="vid-ins-popover"
+                      role="button"
+                      data-toggle="popover"
+                      data-trigger="focus"
+                      title="Capture Images"
+                      data-content="Capture images from the stream. You can capture and view multiple images at the same time. Download the one that fits your need"
+                      ><svg
+                        width="1em"
+                        height="1em"
+                        viewBox="0 0 16 16"
+                        class="bi bi-info-circle-fill"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"
+                        /></svg
+                    ></a>
                     <div id="preview-img-container" class="row"></div>
                   </div>
                 </div>

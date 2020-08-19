@@ -205,3 +205,18 @@ backgroundColor.addEventListener("change", (e) => {
   bg = e.target.value;
   background(bg);
 });
+
+// BOOTSTRAP UTILS
+const VidInsPopover = new bootstrap.Popover(
+  document.querySelector(".popover-dismiss-vid"),
+  {
+    trigger: "focus",
+  }
+);
+
+const ImgInsPopover = new bootstrap.Popover(
+  document.querySelector(".popover-dismiss-img"),
+  {
+    trigger: "focus",
+  }
+);

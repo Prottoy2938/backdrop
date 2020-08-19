@@ -19,7 +19,7 @@ html {
 #experiment-alert {
   display: table;
   padding: 10px 1rem;
-  position: fixed;
+  position: absolute;
   right: 5px;
   top: 5px;
 }
@@ -144,11 +144,28 @@ nav > div a.nav-item.nav-link:hover {
   margin: auto;
 }
 
-#record-canvas-btn {
+#vid-ins-container {
   display: block;
+}
+
+#record-canvas-btn {
   margin: 0 auto;
   margin-top: 1vh;
   margin-bottom: 3vh;
+}
+
+#vid-ins-popover {
+  padding: 2px 5px;
+  border-radius: 50%;
+  margin-left: 15px;
+  margin-top: -15px;
+  background-color: #ffffff;
+}
+
+#vid-ins-popover:hover {
+  background-color: #ffffff;
+  border: none;
+  border-color: white;
 }
 
 #record-canvas-btn span {
@@ -226,5 +243,11 @@ nav > div a.nav-item.nav-link:hover {
   canvas {
     width: 450px;
     height: 334px;
+  }
+}
+
+@media only screen and (max-width: 767.98px) {
+  #experiment-alert {
+    display: none;
   }
 }
