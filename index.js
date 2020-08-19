@@ -14,18 +14,39 @@ let video;
 let uNet;
 let segmentationImage;
 let bg;
-let uNetActive = false;
+let runOnceUnet = false;
 let recording = false;
 let recorder;
 const chunks = [];
 let updateTimer;
 let timeCounter = 45; //loading time component
 
+// BOOTSTRAP UTILS START ==>
+const VidInsPopover = new bootstrap.Popover(
+  document.querySelector(".popover-dismiss-vid"),
+  {
+    trigger: "focus",
+  }
+);
+
+const ImgInsPopover = new bootstrap.Popover(
+  document.querySelector(".popover-dismiss-img"),
+  {
+    trigger: "focus",
+  }
+);
+
+const webcamWarningModal = new bootstrap.Modal(
+  document.getElementById("webcam-warning-modal"),
+  { show: false }
+);
+
 // load uNet model
 function preload() {
   uNet = ml5.uNet("face");
 }
 
+//showing application loading time
 const captureInterval = setInterval(() => {
   if (timeCounter !== 0) {
     timeCounter = timeCounter - 1;
@@ -37,7 +58,12 @@ const captureInterval = setInterval(() => {
 //p5js initial setup
 function setup() {
   createCanvas(540, 400);
-  video = createCapture(VIDEO);
+  console.log("I'm running before the createCapture function");
+  video = createCapture(VIDEO, function (e) {
+    console.log(e);
+    console.log("I'm inside the createCapture callback");
+  });
+  console.log("I'm running after the createCapture function");
   video.size(200, 150); //displaying the main image on the side
   video.class("webcam-feed");
   segmentationImage = createImage(width, height);
@@ -52,13 +78,20 @@ function draw() {
 }
 
 function gotResult(error, result) {
+  console.log("I got the result, I'm running inside the gotResult function");
   if (error) {
     console.error(error);
+    webcamWarningModal.show();
     return;
   }
-  if (!uNetActive) {
-    //doing stuff after the initial uNet model has loaded and working, running this only once
-    uNetActive = true;
+  //doing stuff after the initial uNet model has loaded and working, running this only once
+  if (!runOnceUnet) {
+    video.loadPixels();
+    if (video.pixels[1] > 0) {
+    } else {
+      console.log("User didn't gave permisson");
+    }
+    runOnceUnet = true;
     bg = "#34eb89"; //initial image
     const video = document.querySelector("video"); //getting the video after its created by p5js
     video.parentNode.insertBefore(eventContainer, video.nextSibling); //inserting the eventContainer after the video element [https://stackoverflow.com/questions/4793604/how-to-insert-an-element-after-another-element-in-javascript-without-using-a-lib]
@@ -205,18 +238,3 @@ backgroundColor.addEventListener("change", (e) => {
   bg = e.target.value;
   background(bg);
 });
-
-// BOOTSTRAP UTILS
-const VidInsPopover = new bootstrap.Popover(
-  document.querySelector(".popover-dismiss-vid"),
-  {
-    trigger: "focus",
-  }
-);
-
-const ImgInsPopover = new bootstrap.Popover(
-  document.querySelector(".popover-dismiss-img"),
-  {
-    trigger: "focus",
-  }
-);

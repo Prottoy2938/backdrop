@@ -88,6 +88,32 @@ nav > div a.nav-item.nav-link:hover {
   border-radius: 0;
 }
 
+#chrome-doc-link,
+#firefox-doc-link,
+#safari-doc-link {
+  text-decoration: none;
+  color: black;
+  padding-bottom: 2px;
+}
+
+#chrome-doc-link {
+  border-bottom: 3px solid rgb(202, 189, 0);
+}
+
+#firefox-doc-link {
+  border-bottom: 3px solid rgb(155, 38, 9);
+}
+
+#safari-doc-link {
+  border-bottom: 3px solid rgb(39, 167, 241);
+}
+
+#chrome-doc-link:hover,
+#firefox-doc-link:hover,
+#safari-doc-link:hover {
+  border-bottom: 5px solid;
+}
+
 #nav-tab span {
   flex: 1 1 auto;
 }
@@ -218,6 +244,12 @@ nav > div a.nav-item.nav-link:hover {
   }
 }
 
+@media only screen and (max-width: 767.98px) {
+  #experiment-alert {
+    display: none;
+  }
+}
+
 @media only screen and (max-width: 576px) {
   #nav-tab {
     display: block;
@@ -243,11 +275,5 @@ nav > div a.nav-item.nav-link:hover {
   canvas {
     width: 450px;
     height: 334px;
-  }
-}
-
-@media only screen and (max-width: 767.98px) {
-  #experiment-alert {
-    display: none;
   }
 }
