@@ -8,8 +8,7 @@ const previewVideoContainer = document.querySelector(
 const recordBtn = document.querySelector("#record-canvas-btn");
 const backgroundColor = document.querySelector("#background-color-picker");
 const recordIconClone = document.querySelector("#record-icon").cloneNode(true);
-const loadingTime = document.querySelector("#loading-time")
-
+const loadingTime = document.querySelector("#loading-time");
 
 let video;
 let uNet;
@@ -22,7 +21,6 @@ const chunks = [];
 let updateTimer;
 let timeCounter = 45; //loading time component
 
-
 // load uNet model
 function preload() {
   uNet = ml5.uNet("face");
@@ -31,10 +29,9 @@ function preload() {
 const captureInterval = setInterval(() => {
   if (timeCounter !== 0) {
     timeCounter = timeCounter - 1;
-    console.log(timeCounter)
-    loadingTime.innerText = `Estimated loading time: ${timeCounter} seconds`
+    console.log(timeCounter);
+    loadingTime.innerText = `Estimated loading time: ${timeCounter} seconds`;
   }
-
 }, 1000);
 
 //p5js initial setup
@@ -45,8 +42,7 @@ function setup() {
   video.class("webcam-feed");
   segmentationImage = createImage(width, height);
   uNet.segment(video, gotResult); // initial segmentation
-  bg = '#34eb89' //initial image
-
+  bg = loadImage("./assets/loading.jpg"); //initial loading image
 }
 
 //adding the dom elements, from p5js. this function runs continuously
@@ -63,12 +59,12 @@ function gotResult(error, result) {
   if (!uNetActive) {
     //doing stuff after the initial uNet model has loaded and working, running this only once
     uNetActive = true;
-    bg = '#34eb89' //initial image
+    bg = "#34eb89"; //initial image
     const video = document.querySelector("video"); //getting the video after its created by p5js
     video.parentNode.insertBefore(eventContainer, video.nextSibling); //inserting the eventContainer after the video element [https://stackoverflow.com/questions/4793604/how-to-insert-an-element-after-another-element-in-javascript-without-using-a-lib]
     eventContainer.style.display = "block";
-    loadingTime.style.display = "none"
-    clearInterval(captureInterval)
+    loadingTime.style.display = "none";
+    clearInterval(captureInterval);
   }
   segmentationImage = result.backgroundMask;
   uNet.segment(video, gotResult);
@@ -77,29 +73,35 @@ function gotResult(error, result) {
 //starts capturing video from canvas and saving that data on `chunks` [https://stackoverflow.com/questions/42437971/exporting-a-video-in-p5-js]
 function startRecording() {
   //handling music
-  navigator.mediaDevices.getUserMedia({
-    audio: true
-  }).then(strm => {
-    chunks.length = 0;
-    let canvasStream = document.querySelector("canvas").captureStream(30);
-    //merging both the audio and the video stream
-    let combined = new MediaStream([...canvasStream.getTracks(), ...strm.getTracks()]);
+  navigator.mediaDevices
+    .getUserMedia({
+      audio: true,
+    })
+    .then(
+      (strm) => {
+        chunks.length = 0;
+        let canvasStream = document.querySelector("canvas").captureStream(30);
+        //merging both the audio and the video stream
+        let combined = new MediaStream([
+          ...canvasStream.getTracks(),
+          ...strm.getTracks(),
+        ]);
 
-    recorder = new MediaRecorder(combined);
+        recorder = new MediaRecorder(combined);
 
-    recorder.ondataavailable = (e) => {
-      if (e.data.size) {
-        chunks.push(e.data);
+        recorder.ondataavailable = (e) => {
+          if (e.data.size) {
+            chunks.push(e.data);
+          }
+        };
+        recorder.onstop = exportVideo;
+        recorder.start(); //starting the recorder
+      },
+      (error) => {
+        // Something went wrong, user didn't gave permission.
       }
-    };
-    recorder.onstop = exportVideo;
-    recorder.start(); //starting the recorder
-  }, error => {
-    // Something went wrong, user didn't gave permission. 
-  });
+    );
 }
-
-
 
 //displays captured video on the dom
 function exportVideo(e) {

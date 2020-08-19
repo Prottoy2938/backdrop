@@ -1,101 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Backdrop | Edit Video Background</title>
+    <meta property="og:title" content="Backdrop | Edit Video Background" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://i.imgur.com/J0Zd4l6.jpg" />
+    <meta
+      property="og:description"
+      content="A web application to change/modify video background to anything."
+    />
+    <meta property="og:url" content="https://backdrop.vercel.app/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="shortcut icon" href="./assets/favicon.jpg" type="image/x-icon" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>Backdrop | Edit Video Background</title>
-  <meta property="og:title" content="Backdrop | Edit Video Background" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://i.imgur.com/J0Zd4l6.jpg" />
-  <meta property="og:description" content="A web application to change/modify video background to anything." />
-  <meta property="og:url" content="https://backdrop.vercel.app/" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <link rel="shortcut icon" href="./assets/favicon.jpg" type="image/x-icon" />
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
-    integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
-</head>
-
-<body>
-  <h1 id="title">Backdrop</h1>
-  <h4 id="loading-time">Estimated loading time: 45 seconds</h4>
-  <div id="dom-elements" style="display: none;">
-    <div class="row" id="event-container">
-      <div class="col col-lg-6 col-md-12">
-        <!-- Background Input Start -->
-        <label for="image-upload" id="image-upload-container">
-          <span class="btn btn-warning" data-toggle="tooltip" title="import background image from device">
-            <img src="./assets/folder-search.svg" alt="import background image from device" width="20px"
-              height="20px" />
-            New Background Image
+  <body>
+    <h1 id="title">Backdrop</h1>
+    <h4 id="loading-time">Estimated loading time: 45 seconds</h4>
+    <div id="dom-elements" style="display: none;">
+      <div class="row" id="event-container">
+        <div class="col col-lg-6 col-md-12">
+          <!-- Background Input Start -->
+          <label for="image-upload" id="image-upload-container">
+            <span
+              class="btn btn-warning"
+              data-toggle="tooltip"
+              title="import background image from device"
+            >
+              <img
+                src="./assets/folder-search.svg"
+                alt="import background image from device"
+                width="20px"
+                height="20px"
+              />
+              New Background Image
+            </span>
+          </label>
+          <input
+            id="image-upload"
+            type="file"
+            accept="image/*"
+            style="display: none;"
+          />
+          <span data-toggle="tooltip" title="Choose your background color">
+            <input
+              type="color"
+              id="background-color-picker"
+              name="background-color-picker"
+              value="#b9bfed"
+            />
           </span>
-        </label>
-        <input id="image-upload" type="file" accept="image/*" style="display: none;" />
-        <span data-toggle="tooltip" title="Choose your background color">
-          <input type="color" id="background-color-picker" name="background-color-picker" value="#b9bfed" />
-        </span>
-      </div>
-      <!-- Background Input END -->
+        </div>
+        <!-- Background Input END -->
 
-      <div class="col col-lg-6 col-md-12" id="tab-container">
-        <div class="row">
-          <div class="col-xs-12">
-            <nav>
-              <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                <a class="nav-item nav-link active" id="nav-image-capture-tab" data-toggle="tab"
-                  href="#nav-image-capture" role="tab" aria-controls="nav-image-capture" aria-selected="true">Image
-                  Capture</a>
-                <a class="nav-item nav-link" id="nav-video-capture-tab" data-toggle="tab" href="#nav-video-capture"
-                  role="tab" aria-controls="nav-video-capture" aria-selected="false">Video Capture</a>
-              </div>
-            </nav>
-            <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-              <!-- Image Capture Start -->
-              <div class="tab-pane fade show active" id="nav-image-capture" role="tabpanel"
-                aria-labelledby="nav-image-capture-tab">
-                <div id="image-capture-container">
-                  <button class="btn btn-secondary" id="capture-frame-btn">
-                    Capture Images
-                  </button>
-                  <div id="preview-img-container" class="row"></div>
+        <div class="col col-lg-6 col-md-12" id="tab-container">
+          <div class="row">
+            <div class="col-xs-12">
+              <nav>
+                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                  <a
+                    class="nav-item nav-link active"
+                    id="nav-video-capture-tab"
+                    data-toggle="tab"
+                    href="#nav-video-capture"
+                    role="tab"
+                    aria-controls="nav-video-capture"
+                    aria-selected="true"
+                    >Video Capture</a
+                  >
+                  <a
+                    class="nav-item nav-link"
+                    id="nav-image-capture-tab"
+                    data-toggle="tab"
+                    href="#nav-image-capture"
+                    role="tab"
+                    aria-controls="nav-image-capture"
+                    aria-selected="false"
+                    >Image Capture</a
+                  >
                 </div>
-              </div>
-              <!-- Image Capture END -->
+              </nav>
+              <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                <!-- Video Capture and Recording Start -->
+                <div
+                  class="tab-pane fade show active"
+                  id="nav-video-capture"
+                  role="tabpanel"
+                  aria-labelledby="nav-video-capture-tab"
+                >
+                  <div id="video-capture-container">
+                    <button class="btn btn-light" id="record-canvas-btn">
+                      Start Recording
+                      <span class="badge" id="record-icon"
+                        ><svg
+                          width="1em"
+                          height="1em"
+                          viewBox="0 0 16 16"
+                          class="bi bi-camera-video-fill"
+                          fill="currentColor"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M2.667 3h6.666C10.253 3 11 3.746 11 4.667v6.666c0 .92-.746 1.667-1.667 1.667H2.667C1.747 13 1 12.254 1 11.333V4.667C1 3.747 1.746 3 2.667 3z"
+                          />
+                          <path
+                            d="M7.404 8.697l6.363 3.692c.54.313 1.233-.066 1.233-.697V4.308c0-.63-.693-1.01-1.233-.696L7.404 7.304a.802.802 0 0 0 0 1.393z"
+                          /></svg
+                      ></span>
+                    </button>
+                  </div>
+                </div>
+                <!-- Video Capture and Recording  End -->
 
-              <!-- Video Capture and Recording Start -->
-              <div class="tab-pane fade" id="nav-video-capture" role="tabpanel" aria-labelledby="nav-video-capture-tab">
-                <div id="video-capture-container">
-                  <button class="btn btn-light" id="record-canvas-btn">
-                    Start Recording
-                    <span class="badge" id="record-icon"><svg width="1em" height="1em" viewBox="0 0 16 16"
-                        class="bi bi-camera-video-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M2.667 3h6.666C10.253 3 11 3.746 11 4.667v6.666c0 .92-.746 1.667-1.667 1.667H2.667C1.747 13 1 12.254 1 11.333V4.667C1 3.747 1.746 3 2.667 3z" />
-                        <path
-                          d="M7.404 8.697l6.363 3.692c.54.313 1.233-.066 1.233-.697V4.308c0-.63-.693-1.01-1.233-.696L7.404 7.304a.802.802 0 0 0 0 1.393z" />
-                      </svg></span>
-                  </button>
+                <!-- Image Capture Start -->
+                <div
+                  class="tab-pane fade"
+                  id="nav-image-capture"
+                  role="tabpanel"
+                  aria-labelledby="nav-image-capture-tab"
+                >
+                  <div id="image-capture-container">
+                    <button class="btn btn-secondary" id="capture-frame-btn">
+                      Capture Images
+                    </button>
+                    <div id="preview-img-container" class="row"></div>
+                  </div>
                 </div>
+                <!-- Image Capture END -->
               </div>
-              <!-- Video Capture and Recording  End -->
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-  </script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
-    integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous">
-  </script>
-  <script src="./index.js"></script>
-</body>
-
+    <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+      integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./index.js"></script>
+  </body>
 </html>
