@@ -16,6 +16,20 @@ html {
   font-family: "Josefin Sans", sans-serif;
 }
 
+#experiment-alert {
+  display: table;
+  padding: 10px 1rem;
+  position: fixed;
+  right: 5px;
+  top: 5px;
+}
+
+#experiment-alert a {
+  color: black;
+  text-decoration: none;
+  border-bottom: 2px solid rgb(0, 0, 0);
+}
+
 #loading-time {
   text-align: center;
   margin-bottom: 2vh;
@@ -52,21 +66,21 @@ video {
   color: black;
 }
 
-nav>div a.nav-item.nav-link,
-nav>div a.nav-item.nav-link {
+nav > div a.nav-item.nav-link,
+nav > div a.nav-item.nav-link {
   color: black;
   background-color: white;
 }
 
-nav>div a.nav-item.nav-link:hover,
-nav>div a.nav-item.nav-link:focus {
+nav > div a.nav-item.nav-link:hover,
+nav > div a.nav-item.nav-link:focus {
   border: none;
   background-color: #e5e9e9;
   color: black;
   transition: background 0.2s linear;
 }
 
-nav>div a.nav-item.nav-link:hover {
+nav > div a.nav-item.nav-link:hover {
   border-radius: 0;
 }
 
