@@ -61,6 +61,10 @@ video {
   --bs-gutter-x: none;
 }
 
+#nav-image-capture {
+  margin-top: 10px;
+}
+
 .nav-link.active {
   background-color: #e5e9e9;
   color: black;
