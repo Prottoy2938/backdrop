@@ -23,6 +23,8 @@ let timeCounter = 45; //loading time component
 let checkCameraPermissionOnce = true;
 let runWebcamWarningOnce = true;
 
+console.log("=> 2938");
+
 // BOOTSTRAP UTILS START ==>
 const VidInsPopover = new bootstrap.Popover(
   document.querySelector(".popover-dismiss-vid"),
@@ -59,7 +61,6 @@ function preload() {
 const captureInterval = setInterval(() => {
   if (timeCounter !== 0) {
     timeCounter = timeCounter - 1;
-    console.log(timeCounter);
     loadingTime.innerText = `Estimated loading time: ${timeCounter} seconds`;
   }
 }, 1000);
@@ -190,7 +191,6 @@ function startRecording() {
 //displays captured video on the dom
 function exportVideo(e) {
   const blob = new Blob(chunks);
-  console.log(blob, chunks);
   const vid = document.createElement("video");
   vid.id = "preview-video";
   vid.style.width = "400px";
