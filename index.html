@@ -49,7 +49,7 @@
         <div class="modal-content">
           <div class="modal-body" id="no-img-warning">
             <strong>Webcam access denied!</strong> This application modifies
-            your webcam stream background to any background you want, in order
+            your webcam stream background to any background you prefer, in order
             to use this application you need to enable webcam access. Note that
             no data is being sent to any server and everything happens in the
             browser.
@@ -95,6 +95,31 @@
       </div>
     </div>
     <!-- Webcam doc and warning section END -->
+
+    <!-- Audio permission denial toast warning START -->
+    <div
+      class="toast"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+      id="audio-denial-toast"
+    >
+      <div class="toast-header">
+        <strong class="mr-auto" id="toast-title">No Audio</strong>
+        <button
+          type="button"
+          class="ml-2 mb-1 close"
+          data-dismiss="toast"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        Audio permission denied, recording without audio
+      </div>
+    </div>
+    <!-- Audio permission denial toast warning END -->
 
     <!-- Showing application loading time -->
     <h4 id="loading-time">Estimated loading time: 45 seconds</h4>

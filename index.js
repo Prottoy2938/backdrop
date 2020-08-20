@@ -43,6 +43,13 @@ const webcamWarningModal = new bootstrap.Modal(
   { show: false }
 );
 
+const audioDenialToast = new bootstrap.Toast(
+  document.querySelector("#audio-denial-toast"),
+  {
+    delay: 5000,
+  }
+);
+
 // load uNet model
 function preload() {
   uNet = ml5.uNet("face");
@@ -60,7 +67,7 @@ const captureInterval = setInterval(() => {
 //p5js initial setup
 function setup() {
   createCanvas(540, 400);
-  video = createCapture(VIDEO);
+  video = createCapture(VIDEO); //check out the stream, check if you can find the difference between no stream vs stream log
   video.size(200, 150); //displaying the main image on the side
   video.class("webcam-feed");
   segmentationImage = createImage(width, height);
@@ -79,7 +86,7 @@ function gotResult(error, result) {
     console.error(error);
     return;
   }
-
+  //showing webcam permission warning error
   if (!checkCameraPermissionOnce && runWebcamWarningOnce) {
     webcamWarningModal.show();
     runWebcamWarningOnce = false;
@@ -88,9 +95,9 @@ function gotResult(error, result) {
   //checking if the user gave permission
   if (video) {
     video.loadPixels();
-
+    //checking if user gave permission
     if (!(video.pixels[1] > 0) && checkCameraPermissionOnce) {
-      console.log("User didn't gave permisson");
+      console.error("User didn't gave permisson");
       checkCameraPermissionOnce = false;
     }
   }
@@ -118,6 +125,17 @@ function startRecording() {
     })
     .then(
       (strm) => {
+        //Dom markup
+        const counterSpan = document.createElement("span");
+        recordBtn.innerText = "stop recording";
+        recordBtn.className = "btn btn-danger";
+        counterSpan.className = "badge bg-secondary";
+        counterSpan.innerText = 0;
+        recordBtn.appendChild(counterSpan);
+        updateTimer = setInterval(() => {
+          counterSpan.innerText = Number(counterSpan.innerText) + 1; //updating video capture counter timer
+        }, 1000);
+        //clearing the chunk
         chunks.length = 0;
         let canvasStream = document.querySelector("canvas").captureStream(30);
         //merging both the audio and the video stream
@@ -137,7 +155,34 @@ function startRecording() {
         recorder.start(); //starting the recorder
       },
       (error) => {
-        // Something went wrong, user didn't gave permission.
+        // Something went wrong, user didn't gave audio permission.
+        audioDenialToast.show();
+        //Dom markup
+        const counterSpan = document.createElement("span");
+        recordBtn.innerText = "stop recording";
+        recordBtn.className = "btn btn-danger";
+        counterSpan.className = "badge bg-secondary";
+        counterSpan.innerText = 0;
+        recordBtn.appendChild(counterSpan);
+        updateTimer = setInterval(() => {
+          counterSpan.innerText = Number(counterSpan.innerText) + 1; //updating video capture counter timer
+        }, 1000);
+
+        //clearing the chunks
+        chunks.length = 0;
+        let canvasStream = document.querySelector("canvas").captureStream(30);
+        //getting the video stream
+        let combined = new MediaStream([...canvasStream.getTracks()]);
+
+        recorder = new MediaRecorder(combined);
+
+        recorder.ondataavailable = (e) => {
+          if (e.data.size) {
+            chunks.push(e.data);
+          }
+        };
+        recorder.onstop = exportVideo;
+        recorder.start(); //starting the recorder
       }
     );
 }
@@ -217,16 +262,7 @@ recordBtn.addEventListener("click", () => {
     if (downloadVideoBtn) {
       previewVideoContainer.removeChild(downloadVideoBtn);
     }
-    const counterSpan = document.createElement("span");
-    recordBtn.innerText = "stop recording";
-    recordBtn.className = "btn btn-danger";
-    counterSpan.className = "badge bg-secondary";
-    counterSpan.innerText = 0;
-    recordBtn.appendChild(counterSpan);
     startRecording();
-    updateTimer = setInterval(() => {
-      counterSpan.innerText = Number(counterSpan.innerText) + 1; //updating video capture counter timer
-    }, 1000);
   }
   //stops recording
   else {

@@ -221,6 +221,16 @@ nav > div a.nav-item.nav-link:hover {
   width: 35px;
 }
 
+#audio-denial-toast {
+  position: absolute;
+  top: 2px;
+  left: 1vw;
+}
+
+#toast-title {
+  color: red;
+}
+
 /* For responsiveness */
 @media only screen and (max-width: 992px) {
   #tab-container {
